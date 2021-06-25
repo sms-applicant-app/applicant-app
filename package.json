@@ -21,9 +21,16 @@
     "@angular/router": "~12.0.1",
     "@capacitor/core": "3.0.1",
     "@ionic/angular": "^5.5.2",
+    "@typeform/embed": "^1.10.0",
+    "ion2-calendar": "^3.5.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "bootstrap": "^4.6.0",
+    "firebase": "^7.0 || ^8.0",
+    "firebase-admin": "^9.6.0",
+    "hammerjs": "^2.0.8",
+    "jquery": "^3.6.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.0.1",
