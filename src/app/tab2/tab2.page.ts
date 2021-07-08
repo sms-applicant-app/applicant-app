@@ -1,24 +1,23 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Patient} from '../shared/patient';
 import {Subscription} from 'rxjs';
-import {PatientService} from '../shared/patient.service';
 import {Router} from '@angular/router';
 import { DayConfig } from 'ion2-calendar';
 import {AlertController, IonInfiniteScroll} from '@ionic/angular';
 import { AcuityService } from '../shared/acuity.service';
+import {ApplicantService} from '../shared/applicant.service';
+import {Applicant} from '../models/applicant';
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-  @Input() firstName: string;
+/*  @Input() firstName: string;
   @Input() lastName: string;
   @Input()  email: string;
   @Input() phoneNumber: string;
   @ViewChild(IonInfiniteScroll,  {static: false} ) infiniteScroll: IonInfiniteScroll;
-
   date: string;
   type: 'string';
   daysConfiguration: DayConfig[] = [
@@ -45,25 +44,28 @@ export class Tab2Page implements OnInit {
   selectedTime: any;
   applicationData: any;
 
-  patient: Patient;
+  applicant: Applicant;
   sub: Subscription;
   scheduleDateForm: FormGroup;
   alert: any;
-  constructor(private fb: FormBuilder, private patientService: PatientService, private router: Router, private acuityService: AcuityService, public alertController: AlertController) {
+  // eslint-disable-next-line max-len
+  constructor(private fb: FormBuilder, private applicantService: ApplicantService, private router: Router, private acuityService: AcuityService, public alertController: AlertController) {
     this.scheduleDateForm = fb.group({
       appointmentDate: [''],
     });
+  }*/
+  constructor() {
   }
   ngOnInit(): void {
-    this.acuityService.currentApplicationData.subscribe(message => {
+    /*this.acuityService.currentApplicationData.subscribe(message => {
       console.log('tab1 data ===========>', message, JSON.stringify(this.firstName));
-      this.applicationData = message;
-    });
-    this.updatePatient();
-    let currentDate = new Date();
-    this. currentMonth = ("0"+(currentDate.getMonth()+1)).slice(-2);
-    console.log(`${currentDate.getFullYear()}-${("0"+(currentDate.getMonth()+1)).slice(-2)}`);
-    this.getDates(`${currentDate.getFullYear()}-${("0"+(currentDate.getMonth()+1)).slice(-2)}`);
+      this.applicationData = message;*/
+    };
+ /*   this.updatePatient();
+    const currentDate = new Date();
+    this. currentMonth = ('0'+(currentDate.getMonth()+1)).slice(-2);
+    console.log(`${currentDate.getFullYear()}-${('0'+(currentDate.getMonth()+1)).slice(-2)}`);
+    this.getDates(`${currentDate.getFullYear()}-${('0'+(currentDate.getMonth()+1)).slice(-2)}`);
   }
   async initializeAlert(message) {
     const alert = await this.alertController.create({
@@ -76,9 +78,9 @@ export class Tab2Page implements OnInit {
   onChanged($event) {
     this.isTimesVisible = false;
     console.log('event =============>', $event.format('MM'));
-    let isDateIncluded = this.checkDateIncludedInMonth($event.format('YYYY-MM-DD'));
+    const isDateIncluded = this.checkDateIncludedInMonth($event.format('YYYY-MM-DD'));
     console.log('isDateIncluded =======>', this.currentMonth, $event.format('MM'), isDateIncluded);
-    if(this.currentMonth == $event.format('MM')) {
+    if(this.currentMonth === $event.format('MM')) {
       if(isDateIncluded) {
         if(this.previousDate !== $event.format('YYYY-MM-DD')) {
           this.appointmentTimes = [];
@@ -90,8 +92,8 @@ export class Tab2Page implements OnInit {
         this.initializeAlert('Sorry, cannot book appointment on this date');
       }
     } else {
-      this.date = "";
-      console.log("date ======>", this.date);
+      this.date = '';
+      console.log('date ======>', this.date);
       this.initializeAlert('Select date from the current month');
     }
   }
@@ -103,10 +105,7 @@ export class Tab2Page implements OnInit {
     this.router.navigateByUrl('tabs/tabs/tab3');
   }
   updatePatient() {
-    this.sub = this.patientService.patientUpdate$.subscribe(() => {
-      const { appointmentDate } = this.scheduleDateForm.value;
-      this.patient.appointmentDate = appointmentDate;
-    });
+
   }
   getDates(month) {
     console.log('Timezone ========>', Intl.DateTimeFormat().resolvedOptions().timeZone);
@@ -119,8 +118,8 @@ export class Tab2Page implements OnInit {
     this.date = null;
     this.previousDate = null;
     this.selectedDate = null;
-    this.currentMonth = ("0"+event.newMonth.months).slice(-2);
-    this.getDates(`${event.newMonth.years}-${("0"+event.newMonth.months).slice(-2)}`);
+    this.currentMonth = ('0'+event.newMonth.months).slice(-2);
+    this.getDates(`${event.newMonth.years}-${('0'+event.newMonth.months).slice(-2)}`);
   }
   getTimes(date) {
     console.log('Timezone ========>', Intl.DateTimeFormat().resolvedOptions().timeZone);
@@ -131,7 +130,7 @@ export class Tab2Page implements OnInit {
     });
   }
   checkDateIncludedInMonth(date) {
-    return (this.appointmentDates.findIndex(e => e.date == date) > -1) ? true : false;
+    return (this.appointmentDates.findIndex(e => e.date === date) > -1) ? true : false;
   }
   loadData(event) {
     setTimeout(() => {
@@ -140,13 +139,13 @@ export class Tab2Page implements OnInit {
 
       // App logic to determine if all data is loaded
       // and disable the infinite scroll
-      if (this.appointmentTimes.length == 1000) {
+      if (this.appointmentTimes.length === 1000) {
         event.target.disabled = true;
       }
     }, 500);
   }
 
   toggleInfiniteScroll() {
-    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
-  }
+    this.infiniteScroll.disabled = !this.infiniteScroll.disabled
+  }*/
 }
