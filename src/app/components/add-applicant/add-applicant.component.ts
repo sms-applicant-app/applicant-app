@@ -1,0 +1,72 @@
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Applicant} from '../../models/applicant';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {AuthService} from '../../shared/auth.service';
+import {ApplicantService} from '../../shared/applicant.service';
+
+@Component({
+  selector: 'app-add-applicant',
+  templateUrl: './add-applicant.component.html',
+  styleUrls: ['./add.component.scss'],
+})
+export class AddApplicantComponent implements OnInit {
+
+  @Input() franchiseId: string;
+  @Input() storeId: string;
+  @Input() positionId: string;
+  @Output() messageEvent = new EventEmitter<Applicant>();
+  newApplicant: Applicant = new Applicant();
+  applicantRegistered: boolean;
+  registerForm: FormGroup;
+  constructor(public fb: FormBuilder, public authService: AuthService, public applicantService: ApplicantService) { }
+
+  ngOnInit() {
+    this.applicantRegistered = false;
+    console.log('incoming position Id', this.positionId, this.storeId, this.franchiseId);
+    this.initRegisterForm();
+  }
+  initRegisterForm(){
+    this.registerForm = this.fb.group({
+      email: [''],
+      password: [''],
+      name: [''],
+      phoneNumber: [''],
+      zipCode: ['']
+    });
+  }
+  registerApplicant(){
+   const email = this.registerForm.controls.email.value;
+   const password = this.registerForm.controls.password.value;
+  this.authService.RegisterUser(email, password).then(send =>{
+    this.authService.SendVerificationMail();
+    this.addApplicantDetails();
+  });
+  }
+  addApplicantDetails(){
+   this.newApplicant.name = this.registerForm.controls.name.value;
+    this.newApplicant.phoneNumber = this.registerForm.controls.phoneNumber.value;
+    this.newApplicant.franchiseId = this.franchiseId;
+    this.newApplicant.storeId = this.storeId;
+    this.newApplicant.addressId = this.registerForm.controls.zipCode.value;
+    this.newApplicant.positionId = this.positionId;
+    this.newApplicant.storeId = this.storeId;
+    this.newApplicant.franchiseId = this.franchiseId;
+/*    this.newApplicant.name = name;
+    this.newApplicant.phoneNumber = phoneNumber;
+    this.newApplicant.franchiseId = this.franchiseId;
+    this.newApplicant.storeId = this.storeId;
+    this.newApplicant.addressId = zipCode;
+    this.newApplicant.positionId = this.positionId;*/
+    console.log('applicant object', this.newApplicant);
+    const id = this.newApplicant.email;
+    this.applicantService.createApplicant(id, this.newApplicant).then(data =>{
+      console.log('new applicant added', data);
+      this.sendApplicantMessage();
+    });
+  }
+  sendApplicantMessage(){
+    this.messageEvent.emit(this.newApplicant);
+  }
+
+
+}

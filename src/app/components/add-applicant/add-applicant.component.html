@@ -1,0 +1,32 @@
+<div class="container">
+<div class="row">
+<form [formGroup]="registerForm">
+      <div class="form-group col-lg-12 col-sm-12">
+        <div class="row">
+      <label>Email</label>
+      <input  class="form-control" formControlName="email" type="text" required placeholder="New Users Email ..">
+        </div>
+        <div class="mb-7 row">
+      <label >Password</label>
+      <input class="form-control" formControlName="password" type="password" required placeholder="Enter password...">
+        </div>
+        <div class="mb-7 row">
+       <label >Full Name</label>
+       <input class="form-control" type="text" formControlName="name"  >
+        </div>
+        <div class="mb-7 row">
+       <label>Phone Number</label>
+       <input class="form-control"  type="text" formControlName="phoneNumber" required placeholder="Enter Phone Number">
+        </div>
+        <div class="mb-7 row">
+       <label >Zip Code</label>
+       <input class="form-control" type="text" formControlName="zipCode" required placeholder="Enter Zip Code of Residence">
+        </div>
+        </div>
+ <section class="full-width">
+     <ion-button type="submit" (click)="registerApplicant()" size="default" expand="block" color="success">Register</ion-button>
+ </section>
+  </form>
+  </div>
+</div>
+

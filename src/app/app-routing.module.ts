@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 const routes: Routes = [
 /*  {
@@ -9,11 +10,21 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  },
+  {
+    path: 'positions/:storeId',
+    loadChildren: () => import('./open-positions-list/open-positions-list.module').then( m => m.OpenPositionsListPageModule)
+  },
+  {
+    path: 'position-details/:positionId',
+    loadChildren: () => import('./position-details/position-details.module').then( m => m.PositionDetailsPageModule)
   }
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [RouterModule]
 })

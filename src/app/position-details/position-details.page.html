@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="container">
+    <ion-title>Position Details</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="positionDetails">
+  <div class="container">
+  <div class="card">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card-body">
+      <h3><span style="font-weight: bold">Job Title: </span> {{positionDetails.jobTitle}} </h3><br>
+          <h3 ><span style="font-weight: bold" >Job Summary:</span> {{positionDetails.shortJobDescription}}</h3>
+
+          <p>connect address service to pull in address by ID</p>
+          <h3><span style="font-weight: bold" >Location:</span> {{positionDetails.addressId}}</h3><br>
+          <h3><span style="font-weight: bold" >Status: </span>Open</h3><br>
+          <h3><span style="font-weight: bold" >Company Website: </span>{{positionDetails.companyWebsite}}</h3><br>
+          <h3><span style="font-weight: bold" >Date Posted: </span>09/08/2021</h3>
+          <p>
+            <span style="font-weight: bold">Job Description:</span>
+            {{positionDetails.jobDescription}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card-body">
+            <p>Lets Start by registering for Hire Now</p>
+            <app-add-applicant (messageEvent)="receiveApplicantMessage($event)" [franchiseId]="franchiseId" [storeId]="storeId" [positionId]="positionId"></app-add-applicant>
+          </div>
+        </div>
+      </div>
+
+
+  </div>
+</ion-content>

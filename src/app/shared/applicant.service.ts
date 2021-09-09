@@ -9,41 +9,48 @@ import {FirestoreHelperService} from './firestore-helper.service';
   providedIn: 'root'
 })
 export class ApplicantService {
-
+  message: string;
+  applicantData: any;
   constructor(
     public firestore: AngularFirestore, public dbHelper: FirestoreHelperService
   ) { }
-  getFranchiseOwner(id): Observable<any>{
+  getApplicantsByFranchise(id): Observable<any>{
     return this.firestore.doc(`users/${id}`).valueChanges();
   }
-  getApplicantById(id): Observable<any>{
-    return this.firestore.doc(`applicant/${id}`).valueChanges();
-  }
-  async createFranchise(applicant: Applicant): Promise<any>{
+  async createApplicant(id: string, applicant: Applicant): Promise<any>{
     const applicantObj = {...applicant};
-    console.log('adding franchise',applicant);
-    return this.firestore.collection('franchisee').add(applicantObj).then(docRef =>{
-      const franchiseId = docRef.id;
-      localStorage.setItem('added-franchisee', JSON.stringify(franchiseId));
-      console.log('add franchise id =', franchiseId);
+    console.log('adding applicant',applicant);
+    return this.firestore.collection('applicant').add(applicantObj).then(docRef =>{
+      const applicantId = docRef.id;
+      localStorage.setItem('added-applicant', JSON.stringify(applicantId));
+      console.log('added applicant id =', applicantId);
     });
   }
-  getFranchises(){
-    return this.firestore.collection('franchisee').snapshotChanges();
-  }
-  findFranchisesStores(franchiseId: string, filter = '', sortOrder ='asc',
-                       pageNumber = 0, pageSize = 3): Observable<Applicant[]>{
-    return;
+  getApplicantsByStore(storeId){
+    return this.firestore.collection('applicants', ref => ref.where(`${storeId}`, '==', storeId)).get()
+      .subscribe(ss => {
+        if (ss.docs.length === 0) {
+          this.message = 'Document not found! Try again!';
+        } else {
+          ss.docs.forEach(doc => {
+            this.message = '';
+            this.applicantData = doc.data();
+          });
+        }
+      });
   }
 
-  getAllFranchisesWithDbHelper(): Observable<any>{
-    return this.dbHelper.collectionWithIds$('franchisee');
+  createApplicantOnboardPacket(applicant: Applicant){
+    return this.firestore.collection('applicant').add(`${applicant}`);
   }
-  updateFranchise(franchiseId, data): Promise<any>{
-    return this.firestore.collection('franchisee').doc(`${franchiseId}`).set({data}, {merge: true});
-  }
-  deleteFranchise(franchiseId){
-    this.firestore.doc(`franchisee/${franchiseId}`).delete().then(resp =>{
+  /*updateApplicant(applicant: Applicant){
+    delete franchise.franchiseId;
+    this.firestore.doc(`applicant/${id}`).update(applicant).then(resp =>{
+      console.log('updated franchise', resp);
+    });
+  }*/
+  deleteApplicant(applicantId){
+    this.firestore.doc(`franchisee/${applicantId}`).delete().then(resp =>{
       console.log('deleting franchise', resp);
     });
   }
