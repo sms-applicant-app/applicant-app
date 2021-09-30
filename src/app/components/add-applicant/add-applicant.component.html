@@ -4,11 +4,11 @@
       <div class="form-group col-lg-12 col-sm-12">
         <div class="row">
       <label>Email</label>
-      <input  class="form-control" formControlName="email" type="text" required placeholder="New Users Email ..">
+      <input  class="form-control" formControlName="email" type="text" >
         </div>
         <div class="mb-7 row">
       <label >Password</label>
-      <input class="form-control" formControlName="password" type="password" required placeholder="Enter password...">
+      <input class="form-control" formControlName="password" type="password" >
         </div>
         <div class="mb-7 row">
        <label >Full Name</label>
@@ -16,16 +16,16 @@
         </div>
         <div class="mb-7 row">
        <label>Phone Number</label>
-       <input class="form-control"  type="text" formControlName="phoneNumber" required placeholder="Enter Phone Number">
+       <input class="form-control"  type="text" formControlName="phoneNumber" >
         </div>
         <div class="mb-7 row">
        <label >Zip Code</label>
-       <input class="form-control" type="text" formControlName="zipCode" required placeholder="Enter Zip Code of Residence">
+       <input class="form-control" type="text" formControlName="zipCode" >
         </div>
         </div>
- <section class="full-width">
-     <ion-button type="submit" (click)="registerApplicant()" size="default" expand="block" color="success">Register</ion-button>
- </section>
+
+        <ion-button (click)="registerApplicant()" type="expand" color="primary" fill="solid" >Register</ion-button>
+
   </form>
   </div>
 </div>

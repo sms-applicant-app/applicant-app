@@ -18,6 +18,18 @@ const routes: Routes = [
   {
     path: 'position-details/:positionId',
     loadChildren: () => import('./position-details/position-details.module').then( m => m.PositionDetailsPageModule)
+  },
+  {
+    path: 'application-completed',
+    loadChildren: () => import('./application-completed/application-completed.module').then( m => m.ApplicationCompletedPageModule)
+  },
+  {
+    path: 'logout',
+    loadChildren: () => import('./logout/logout.module').then( m => m.LogoutPageModule)
+  },
+  {
+    path: 'interview-scheduled',
+    loadChildren: () => import('./interview-scheduled/interview-scheduled.module').then( m => m.InterviewScheduledPageModule)
   }
 ];
 @NgModule({

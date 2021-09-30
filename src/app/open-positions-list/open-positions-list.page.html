@@ -1,38 +1,38 @@
-<div class="card card-custom">
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      HIRENOW.US
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
   <p *ngIf="positions.length <= 0">No Jobs for this Franchise Yet</p>
-  <div class="card-header flex-wrap border-0 pt-6 pb-0">
-    <div class="card-title">
-      <h3 class="card-label">Open Positions for ACME co</h3>
-    </div>
     <!-- <div class="card-toolbar">
        <button class="btn btn-light-primary" (click)="export()">Export</button>
      </div>-->
-  </div>
-  <div class =mat-elevation-z8 *ngIf="positions.length > 0">
-    <mat-table [dataSource]="dataSource">
-      <ng-container  matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef>Job Title</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.data.jobTitle}}</mat-cell>
-      </ng-container>
-      <ng-container  matColumnDef="jobType">
-        <mat-header-cell *matHeaderCellDef>Job Type</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.data.jobType}}</mat-cell>
-      </ng-container>
-      <ng-container  matColumnDef="dateCreated">
-        <mat-header-cell *matHeaderCellDef>Posted Date</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.data.addressId}}</mat-cell>
-      </ng-container>
-      <ng-container  matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef>Apply</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <ion-item>
-            <ion-button (click)="openPositionDetails(element.id)" type="button" class="btn btn-success">Apply Now</ion-button>
-          </ion-item>
-          <!--<ion-button (click)="addStoreToFranchise(element.id)">Add Store</ion-button></mat-cell>-->
-        </mat-cell>>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayColumns "></mat-row>
-    </mat-table>
-  </div>
-</div>
+  <div class="mat-elevation-z8" *ngIf="positions.length > 0">
+    <div class="ion-padding container">
+      <div *ngFor="let p of positions">
+        <div class="dropdown-divider"></div>
+        <mat-card class="example-card">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>{{p.data.jobTitle}}</mat-card-title>
+            <mat-card-subtitle>St Louis</mat-card-subtitle>
+          </mat-card-header>
+         <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+          <mat-card-content>
+            <p>
+              {{p.data.shortJobDescription}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button (click)="openPositionDetails(p.id)" mat-button>Details</button>
+            <!--<button mat-button>Details</button>-->
+          </mat-card-actions>
+        </mat-card>
+        <div class="dropdown-divider"></div>
+    </div>
+      </div>
+    </div>
+</ion-content>

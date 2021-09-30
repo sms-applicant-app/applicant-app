@@ -20,11 +20,12 @@ export class ApplicantService {
   async createApplicant(id: string, applicant: Applicant): Promise<any>{
     const applicantObj = {...applicant};
     console.log('adding applicant',applicant);
-    return this.firestore.collection('applicant').add(applicantObj).then(docRef =>{
-      const applicantId = docRef.id;
-      localStorage.setItem('added-applicant', JSON.stringify(applicantId));
-      console.log('added applicant id =', applicantId);
+    return this.firestore.collection('applicant').doc(id).set(
+      applicantObj
+    ).then( docRef =>{
+      const applicantId = docRef;
     });
+
   }
   getApplicantsByStore(storeId){
     return this.firestore.collection('applicants', ref => ref.where(`${storeId}`, '==', storeId)).get()
@@ -43,12 +44,12 @@ export class ApplicantService {
   createApplicantOnboardPacket(applicant: Applicant){
     return this.firestore.collection('applicant').add(`${applicant}`);
   }
-  /*updateApplicant(applicant: Applicant){
-    delete franchise.franchiseId;
-    this.firestore.doc(`applicant/${id}`).update(applicant).then(resp =>{
-      console.log('updated franchise', resp);
+  updateApplicant(applicantId, data) {
+    console.log('updated applicant', applicantId, data);
+    this.firestore.doc(`applicant/${applicantId}`).update(data).then(resp => {
+      console.log('updated applicant', applicantId, data);
     });
-  }*/
+  }
   deleteApplicant(applicantId){
     this.firestore.doc(`franchisee/${applicantId}`).delete().then(resp =>{
       console.log('deleting franchise', resp);

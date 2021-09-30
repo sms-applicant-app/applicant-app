@@ -31,6 +31,7 @@ export class PositionDetailsPage implements OnInit {
  }
   receiveApplicantMessage($event){
     console.log('applicant added', $event);
+    localStorage.setItem('positionId', JSON.stringify(this.positionId));
     if ($event){
       this.router.navigate(['tabs/tab2']);
     }

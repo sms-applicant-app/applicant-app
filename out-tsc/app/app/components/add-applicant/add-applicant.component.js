@@ -2,7 +2,8 @@ import { __decorate } from "tslib";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Applicant } from '../../models/applicant';
 let AddApplicantComponent = class AddApplicantComponent {
-    constructor(fb, authService, applicantService) {
+    constructor(dbHelper, fb, authService, applicantService) {
+        this.dbHelper = dbHelper;
         this.fb = fb;
         this.authService = authService;
         this.applicantService = applicantService;
@@ -29,6 +30,9 @@ let AddApplicantComponent = class AddApplicantComponent {
         this.authService.RegisterUser(email, password).then(send => {
             this.authService.SendVerificationMail();
             this.addApplicantDetails();
+            this.authService.SignIn(email, password).then(resp => {
+                console.log('logged in applicant ', resp);
+            });
         });
     }
     addApplicantDetails() {
@@ -38,14 +42,8 @@ let AddApplicantComponent = class AddApplicantComponent {
         this.newApplicant.storeId = this.storeId;
         this.newApplicant.addressId = this.registerForm.controls.zipCode.value;
         this.newApplicant.positionId = this.positionId;
-        this.newApplicant.storeId = this.storeId;
+        this.newApplicant.email = this.registerForm.controls.email.value;
         this.newApplicant.franchiseId = this.franchiseId;
-        /*    this.newApplicant.name = name;
-            this.newApplicant.phoneNumber = phoneNumber;
-            this.newApplicant.franchiseId = this.franchiseId;
-            this.newApplicant.storeId = this.storeId;
-            this.newApplicant.addressId = zipCode;
-            this.newApplicant.positionId = this.positionId;*/
         console.log('applicant object', this.newApplicant);
         const id = this.newApplicant.email;
         this.applicantService.createApplicant(id, this.newApplicant).then(data => {

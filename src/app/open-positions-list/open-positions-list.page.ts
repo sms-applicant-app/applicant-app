@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {JobsService} from "../shared/jobs.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AngularFirestore} from "@angular/fire/firestore";
-import {Position} from "@angular/compiler";
-import {MatTableDataSource} from "@angular/material/table";
-import {FirestoreHelperService} from "../shared/firestore-helper.service";
+import {JobsService} from '../shared/jobs.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Position} from '@angular/compiler';
+import {MatTableDataSource} from '@angular/material/table';
+import {FirestoreHelperService} from '../shared/firestore-helper.service';
 
 @Component({
   selector: 'app-open-positions-list',
@@ -21,7 +21,6 @@ export class OpenPositionsListPage implements OnInit {
   displayColumns= ['title', 'jobType', 'dateCreated', 'actions'];
   constructor(public jobsService: JobsService, public route: ActivatedRoute, public firestore: AngularFirestore,  public dbHelper: FirestoreHelperService,  public router: Router) {
   }
-
   ngOnInit() {
     /*this.route.queryParams
       .subscribe(params =>{
