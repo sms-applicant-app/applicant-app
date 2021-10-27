@@ -56,6 +56,7 @@ export class AddApplicantComponent implements OnInit {
     this.newApplicant.positionId = this.positionId;
     this.newApplicant.email = this.registerForm.controls.email.value;
     this.newApplicant.franchiseId = this.franchiseId;
+    this.newApplicant.status = 'Applied';
     console.log('applicant object', this.newApplicant);
     const id = this.newApplicant.email;
     this.applicantService.createApplicant(id, this.newApplicant).then(data =>{
