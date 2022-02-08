@@ -8,7 +8,7 @@ let OpenPositionsListPage = class OpenPositionsListPage {
         this.firestore = firestore;
         this.dbHelper = dbHelper;
         this.router = router;
-        this.positions = [];
+        this.jobs = [];
         this.displayColumns = ['title', 'jobType', 'dateCreated', 'actions'];
     }
     ngOnInit() {
@@ -21,22 +21,40 @@ let OpenPositionsListPage = class OpenPositionsListPage {
         console.log('store id from URL', this.storeId);
         this.getJobsByStore(this.storeId);
     }
+    /*getJobsByStore2(){
+      this.firestore.collection('jobs', ref => ref.where('storeId', '==', storeId)).get()
+        .subscribe(jobs =>{
+          this.jobs = [];
+          if(jobs.docs.length === 0){
+            console.log('no jobs with that store', this.storeId);
+          } else {
+            jobs.forEach(job =>{
+              const j = job.data();
+              const positionId = job.id;
+              this.jobs.push({id: positionId, position:j});
+              console.log(this.jobs, 'id', positionId);
+              this.dataSource = new MatTableDataSource<JobListing>(this.jobs);
+            });
+          }
+        });
+  
+    }*/
     getJobsByStore(storeId) {
         //TODo add another where clause to get only open positions
-        this.firestore.collection('jobs', ref => ref.where('storeId', '==', `${storeId}`)).get()
-            .subscribe(ss => {
-            this.positions = [];
-            console.log('getting positions');
-            if (ss.docs.length === 0) {
-                return this.message = 'Document not found! Try again!';
+        console.log('store id in query', storeId);
+        this.firestore.collection('jobs', ref => ref.where('storeId', '==', storeId)).get()
+            .subscribe(jobs => {
+            this.jobs = [];
+            if (jobs.docs.length === 0) {
+                console.log('no jobs with that store', storeId);
             }
             else {
-                ss.docs.forEach(doc => {
-                    this.jobId = doc.id;
-                    this.jobsData = doc.data();
-                    this.positions.push({ id: this.jobId, data: this.jobsData });
-                    console.log('jobs', this.positions);
-                    this.dataSource = new MatTableDataSource(this.positions);
+                jobs.forEach(job => {
+                    const j = job.data();
+                    const positionId = job.id;
+                    this.jobs.push({ id: positionId, position: j });
+                    console.log(this.jobs, 'id', positionId);
+                    this.dataSource = new MatTableDataSource(this.jobs);
                 });
             }
         });
