@@ -5,7 +5,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {Position} from '@angular/compiler';
 import {MatTableDataSource} from '@angular/material/table';
 import {FirestoreHelperService} from '../shared/firestore-helper.service';
-import {JobListing} from "../models/JobListing";
+import {JobListing} from "../models/job-listing";
 
 @Component({
   selector: 'app-open-positions-list',
@@ -18,7 +18,7 @@ export class OpenPositionsListPage implements OnInit {
   jobsData: any;
   jobId: string;
   jobs: any = [];
-  dataSource:  MatTableDataSource<Position>;
+  dataSource:  MatTableDataSource<JobListing>;
   displayColumns= ['title', 'jobType', 'dateCreated', 'actions'];
   constructor(public jobsService: JobsService,
               public route: ActivatedRoute,
@@ -72,14 +72,6 @@ export class OpenPositionsListPage implements OnInit {
         }
       }
 
-    }).then(data => {
-      return 'fixed';
-    });
-    const jobsRef = this.firestore.collection('jobs', ref => ref.where('storeId','!=', null)).valueChanges();
-    jobsRef.subscribe(data =>{
-      data.forEach(job =>{
-      //  console.log('getting all jobs', job);
-      });
     });
   }
 
@@ -99,7 +91,7 @@ export class OpenPositionsListPage implements OnInit {
               const positionId = job.id;
               this.jobs.push({id: positionId, position:j});
               console.log(this.jobs, 'id', positionId);
-              this.dataSource = new MatTableDataSource<Position>(this.jobs);
+              this.dataSource = new MatTableDataSource<JobListing>(this.jobs);
             });
           }
         });

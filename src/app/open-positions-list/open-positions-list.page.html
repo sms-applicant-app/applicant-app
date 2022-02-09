@@ -12,22 +12,22 @@
      </div>-->
   <div class="mat-elevation-z8" *ngIf="jobs.length > 0">
     <div class="ion-padding container">
-      <div *ngFor="let p of jobs">
+      <div *ngFor="let j of jobs">
         <div class="dropdown-divider"></div>
         <mat-card class="example-card">
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>{{p.position.jobTitle}}</mat-card-title>
+            <mat-card-title>{{j.position.jobTitle}}</mat-card-title>
             <mat-card-subtitle>St Louis</mat-card-subtitle>
           </mat-card-header>
          <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
           <mat-card-content>
             <p>
-              {{p.position.shortJobDescription}}
+              {{j.position.shortJobDescription}}
             </p>
           </mat-card-content>
           <mat-card-actions>
-            <button (click)="openPositionDetails(p.id)" mat-button>Details</button>
+            <button (click)="openPositionDetails(j.id)" mat-button>Details</button>
             <!--<button mat-button>Details</button>-->
           </mat-card-actions>
         </mat-card>
