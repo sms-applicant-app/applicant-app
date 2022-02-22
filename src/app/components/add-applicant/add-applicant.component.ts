@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Applicant} from '../../models/applicant';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../shared/auth.service';
 import {ApplicantService} from '../../shared/applicant.service';
-import {FirestoreHelperService} from "../../shared/firestore-helper.service";
-import firebase from "firebase";
+import {FirestoreHelperService} from '../../shared/firestore-helper.service';
+import { emailValidator, matchingPasswords, phoneValidator } from 'src/app/shared/app.validator';
 
 @Component({
   selector: 'app-add-applicant',
@@ -20,7 +20,11 @@ export class AddApplicantComponent implements OnInit {
   newApplicant: Applicant = new Applicant();
   applicantRegistered: boolean;
   registerForm: FormGroup;
-  constructor(public dbHelper: FirestoreHelperService, public fb: FormBuilder, public authService: AuthService, public applicantService: ApplicantService) { }
+  constructor(
+    public dbHelper: FirestoreHelperService,
+    public fb: FormBuilder,
+    public authService: AuthService,
+    public applicantService: ApplicantService) { }
 
   ngOnInit() {
     this.applicantRegistered = false;
@@ -28,24 +32,30 @@ export class AddApplicantComponent implements OnInit {
     this.initRegisterForm();
   }
   initRegisterForm(){
-    this.registerForm = this.fb.group({
-      email: [''],
-      password: [''],
-      name: [''],
-      phoneNumber: [''],
-      zipCode: ['']
-    });
+    this.registerForm = this.fb.group(
+      {
+        email: ['', [Validators.required, emailValidator]],
+        password: ['', Validators.required],
+        name: ['', Validators.required],
+        phoneNumber: ['', [Validators.required, phoneValidator]],
+        zipCode: ['', Validators.required],
+        confirmPassword: ['', Validators.required]
+      },
+      { validator: matchingPasswords('password', 'confirmPassword') }
+    );
   }
   registerApplicant(){
-   const email = this.registerForm.controls.email.value;
-   const password = this.registerForm.controls.password.value;
-  this.authService.RegisterUser(email, password).then(send =>{
-    this.authService.SendVerificationMail();
-    this.addApplicantDetails();
-    this.authService.SignIn(email, password).then(resp =>{
-      console.log('logged in applicant ',resp);
-    });
-  });
+    if (this.registerForm.valid) {
+      const email = this.registerForm.controls.email.value;
+      const password = this.registerForm.controls.password.value;
+      this.authService.RegisterUser(email, password).then(send =>{
+        this.authService.SendVerificationMail();
+        this.addApplicantDetails();
+        this.authService.SignIn(email, password).then(resp =>{
+          console.log('logged in applicant ',resp);
+        });
+      });
+    }
   }
   addApplicantDetails(){
    this.newApplicant.name = this.registerForm.controls.name.value;
