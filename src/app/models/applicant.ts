@@ -4,7 +4,7 @@ export class Applicant {
   email: string;
   phoneNumber: string;
   applicantId: string;
-  status: string;
+  status?: string;
   storeId?: string;
   positionId: string;
   franchiseId: string;
