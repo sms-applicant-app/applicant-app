@@ -19,7 +19,13 @@ export class PositionDetailsPage implements OnInit {
   applicantForm: FormGroup;
   newApplicant = new Applicant();
 
-  constructor(public activatedRoute: ActivatedRoute, public jobsService: JobsService, public firestore: AngularFirestore, public router: Router, public fb: FormBuilder, public dbHelper: FirestoreHelperService) { }
+  constructor(public activatedRoute: ActivatedRoute,
+              public jobsService: JobsService,
+              public firestore: AngularFirestore,
+              public router: Router,
+              public fb: FormBuilder,
+              public dbHelper: FirestoreHelperService
+  ) { }
 
   ngOnInit() {
     this.positionId = this.activatedRoute.snapshot.paramMap.get('positionId');
@@ -44,25 +50,20 @@ export class PositionDetailsPage implements OnInit {
  }
  startApplicationProcess(){
     this.newApplicant.name = this.applicantForm.controls.fullName.value;
-   this.newApplicant.email = this.applicantForm.controls.email.value;
-   this.newApplicant.phoneNumber = this.applicantForm.controls.phoneNumber.value;
-   this.newApplicant.jobId = this.positionId;
-   this.newApplicant.storeId = this.storeId;
-   this.newApplicant.franchiseId = this.franchiseId;
-   this.newApplicant.status = 'APPLIED';
-    console.log(this.newApplicant);
-    const applicant = this.newApplicant;
-    const email = this.applicantForm.controls.email.value;
-    this.dbHelper.set(`applicant/${email}`, this.newApplicant).then(data =>{
+     this.newApplicant.email = this.applicantForm.controls.email.value;
+     this.newApplicant.phoneNumber = this.applicantForm.controls.phoneNumber.value;
+     this.newApplicant.jobId = this.positionId;
+     this.newApplicant.storeId = this.storeId;
+     this.newApplicant.franchiseId = this.franchiseId;
+     this.newApplicant.status = 'APPLIED';
+      const email = this.applicantForm.controls.email.value;
+      this.dbHelper.set(`applicant/${email}`, this.newApplicant).then(data =>{
       console.log('saving applicant', this.newApplicant);
+      this.receiveApplicantMessage();
     });
-
  }
-  receiveApplicantMessage($event){
-    console.log('applicant added', $event);
+  receiveApplicantMessage(){
     localStorage.setItem('positionId', JSON.stringify(this.positionId));
-    if ($event){
       this.router.navigate(['tabs/tab2']);
     }
-  }
 }

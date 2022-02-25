@@ -1,23 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>onboarding</ion-title>
+    <ion-title>Welcome to Onboarding for Jimmy Johns Location #12</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <mat-list>
-    <div mat-subheader>Folders</div>
-    <mat-list-item *ngFor="let folder of federals">
-      <mat-icon mat-list-icon>folder</mat-icon>
-      <div mat-line>{{folder.name}}</div>
-      <div mat-line> {{folder.updated | date}} </div>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <div mat-subheader>Notes</div>
-    <mat-list-item *ngFor="let note of states">
-      <mat-icon mat-list-icon>note</mat-icon>
-      <div mat-line>{{note.name}}</div>
-      <div mat-line> {{note.updated | date}} </div>
-    </mat-list-item>
-  </mat-list>
+<app-onboard-forms-list [companyDocs]="companyDocs" [federalDocs]="federalDocs" [stateDocs]="federalDocs"></app-onboard-forms-list>
 </ion-content>
