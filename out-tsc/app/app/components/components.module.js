@@ -15,7 +15,7 @@ ComponentsModule = __decorate([
             IonicModule,
             FormsModule,
             ReactiveFormsModule,
-            AngularMaterialModule
+            AngularMaterialModule,
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         exports: [AddApplicantComponent]

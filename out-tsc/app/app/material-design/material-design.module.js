@@ -1,6 +1,7 @@
 import { __decorate } from "tslib";
 import { NgModule } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
@@ -49,6 +50,7 @@ AngularMaterialModule = __decorate([
     NgModule({
         exports: [
             A11yModule,
+            CdkAccordionModule,
             ClipboardModule,
             CdkStepperModule,
             CdkTableModule,
@@ -92,9 +94,6 @@ AngularMaterialModule = __decorate([
             OverlayModule,
             PortalModule,
             ScrollingModule,
-        ],
-        providers: [
-            MatDatepickerModule
         ]
     })
 ], AngularMaterialModule);

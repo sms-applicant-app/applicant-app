@@ -28,9 +28,9 @@ const routes = [
         loadChildren: () => import('./logout/logout.module').then(m => m.LogoutPageModule)
     },
     {
-        path: 'interview-scheduled',
-        loadChildren: () => import('./interview-scheduled/interview-scheduled.module').then(m => m.InterviewScheduledPageModule)
-    }
+        path: 'onboarding',
+        loadChildren: () => import('./onboarding/onboarding.module').then(m => m.OnboardingPageModule)
+    },
 ];
 let AppRoutingModule = class AppRoutingModule {
 };
