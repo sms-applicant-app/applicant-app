@@ -56,6 +56,7 @@ export class PositionDetailsPage implements OnInit {
      this.newApplicant.storeId = this.storeId;
      this.newApplicant.franchiseId = this.franchiseId;
      this.newApplicant.status = 'APPLIED';
+     this.newApplicant.applicantId = this.firestore.createId();
       const email = this.applicantForm.controls.email.value;
       this.dbHelper.set(`applicant/${email}`, this.newApplicant).then(data =>{
       console.log('saving applicant', this.newApplicant);

@@ -9,6 +9,7 @@ import { OnboardingPageRoutingModule } from './onboarding-routing.module';
 import { OnboardingPage } from './onboarding.page';
 import {AngularMaterialModule} from '../material-design/material-design.module';
 import {OnboardFormsListComponent} from "./onboard-forms-list/onboard-forms-list.component";
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import {OnboardFormsListComponent} from "./onboard-forms-list/onboard-forms-list
     FormsModule,
     IonicModule,
     OnboardingPageRoutingModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    HttpClientModule
   ],
   declarations: [OnboardingPage, OnboardFormsListComponent]
 })
