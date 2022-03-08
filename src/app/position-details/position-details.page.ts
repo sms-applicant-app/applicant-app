@@ -53,6 +53,7 @@ export class PositionDetailsPage implements OnInit {
      this.newApplicant.email = this.applicantForm.controls.email.value;
      this.newApplicant.phoneNumber = this.applicantForm.controls.phoneNumber.value;
      this.newApplicant.jobId = this.positionId;
+     this.newApplicant.positionId = this.positionId;
      this.newApplicant.storeId = this.storeId;
      this.newApplicant.franchiseId = this.franchiseId;
      this.newApplicant.status = 'APPLIED';
