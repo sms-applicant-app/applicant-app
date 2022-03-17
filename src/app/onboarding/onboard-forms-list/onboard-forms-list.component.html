@@ -1,13 +1,21 @@
-//TODO finish receiving the links for documents
-
-<div class="row">
-  <div class="text-center font-weight-bold">
-    <h1>
-      Onboarding Forms: Please have printed and signed on start date of (12/12/20222
-    </h1>
-  </div>
-</div>
 <div class="container">
- <app-onboard-forms-list [federalDocs]="federalDocs" [companyDocs]="companyDocs" [stateDocs]="stateDocs"></app-onboard-forms-list>
+  <p *ngIf="onboardingForms?.length <= 0">No Package Form</p>
+  <div class="mat-elevation-z8" *ngIf="onboardingForms?.length > 0">
+    <div class="ion-padding container">
+      <div *ngFor="let form of onboardingForms">
+        <div class="dropdown-divider"></div>
+        <mat-card class="example-card">
+          <mat-card-content class="mb-0">
+            <p>
+              {{ form.name }}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button color="primary" (click)="downloadForm(form.formUrl)">Download</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
 </div>
 

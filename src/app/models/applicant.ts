@@ -12,5 +12,6 @@ export class Applicant {
   jobId?: string;
   dob?: string;
   gender?: string;
+  onboardPackageID?: string;
   createdDate: firebase.firestore.FieldValue;
 }

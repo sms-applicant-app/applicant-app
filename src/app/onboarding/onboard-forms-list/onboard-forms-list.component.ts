@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {Component, Input, OnInit} from '@angular/core';
 export interface Section {
   name: string;
@@ -14,6 +15,8 @@ export class OnboardFormsListComponent implements OnInit {
   @Input()federalDocs;
   @Input()stateDocs;
   @Input()companyDocs;
+  @Input() onboardingForms: any = [];
+
   federals: Section[] = [
     {
       name: 'Photos',
@@ -55,8 +58,22 @@ export class OnboardFormsListComponent implements OnInit {
       updated: new Date('1/18/16'),
     },
   ];
-  constructor() { }
+  constructor(
+    private httpClient: HttpClient
+  ) { }
 
   ngOnInit() {}
 
+  downloadForm(url: string) {
+    let fileName = '';
+    fileName = url.split('/').pop().split('?')[0];
+    this.httpClient.get(url, { responseType: 'blob' }).subscribe((response: any) => {
+      const fileURL = window.URL.createObjectURL(new Blob([response]));
+      const fileLink = document.createElement('a');
+      fileLink.href = fileURL;
+      fileLink.setAttribute('download', fileName);
+      document.body.appendChild(fileLink);
+      fileLink.click();
+    });
+  }
 }
