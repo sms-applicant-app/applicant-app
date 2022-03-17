@@ -1,7 +1,7 @@
 {
   "hosting": {
-    "public": "www",
     "site": "applicant-app",
+    "public": "www",
     "ignore": [
       "firebase.json",
       "**/.*",
