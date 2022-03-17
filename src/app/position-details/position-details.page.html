@@ -29,14 +29,46 @@
     </div>
   </div>
       <div class="row">
+        <div class="container">
         <div class="col-md-12">
           <div class="card-body">
-            <p>Lets Start by registering for Hire Now</p>
-            <app-add-applicant (messageEvent)="receiveApplicantMessage($event)" [franchiseId]="franchiseId" [storeId]="storeId" [positionId]="positionId"></app-add-applicant>
+            <p>By getting your basic information we can move to the online Application process</p><br>Best of Luck!
+            <form [formGroup]="applicantForm">
+
+                <div class="form-group">
+                <mat-form-field appearance="fill">
+                  <mat-label>{{positionDetails.jobTitle}}</mat-label>
+                  <input matInput disabled value="{{positionDetails.hiringManagersName}}">
+                </mat-form-field>
+
+
+
+                    <mat-form-field appearance="fill">
+                    <mat-label>Government Name</mat-label>
+                    <input class="form-control" matInput formControlName="fullName" type="text">
+                  </mat-form-field>
+
+
+                    <mat-form-field  appearance="fill">
+                    <mat-label>Best Email To Reach you at</mat-label>
+                    <input matInput class="form-control"  formControlName="email" type="email">
+                  </mat-form-field>
+
+
+                    <mat-form-field appearance="fill">
+                      <mat-label>Best Phone for Correspondence </mat-label>
+                      <input matInput class="form-control" formControlName="phoneNumber" type="text">
+                    </mat-form-field>
+
+
+
+                </div>
+            </form>
+            <button (click)="startApplicationProcess()" type="submit">Online Application</button>
+            <!--<app-add-applicant (messageEvent)="receiveApplicantMessage($event)" [franchiseId]="franchiseId" [storeId]="storeId" [positionId]="positionId"></app-add-applicant>-->
           </div>
         </div>
       </div>
-
-
+      </div>
   </div>
 </ion-content>

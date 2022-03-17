@@ -15,7 +15,8 @@ import {AngularMaterialModule} from '../material-design/material-design.module';
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports:[AddApplicantComponent]

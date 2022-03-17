@@ -4,7 +4,7 @@ export class Applicant {
   email: string;
   phoneNumber: string;
   applicantId: string;
-  status: string;
+  status?: string;
   storeId?: string;
   positionId: string;
   franchiseId: string;
@@ -12,5 +12,6 @@ export class Applicant {
   jobId?: string;
   dob?: string;
   gender?: string;
+  onboardPackageID?: string;
   createdDate: firebase.firestore.FieldValue;
 }
