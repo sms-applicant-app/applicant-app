@@ -1,18 +1,44 @@
 
-<form [formGroup]="registerForm ">
-      <div class="form-group col-lg-12 col-sm-12">
-        <div class="row">
-          <label>Email</label>
-          <input  class="form-control" formControlName="email" type="text" >
-        </div>
-        <div class="mb-7 row">
-          <input  class="form-control" formControlName="fullName" type="text" >
-        </div>
-        <div class="mb-7 row">
-       <label >Full Name</label><button (click)="saveApplicant()" type="expand" color="primary" fill="solid" >Register</button>
-        </div>
-      </div>
-</form>
-
+<div class="container">
+  <div class="row">
+  <form class="col-md-6 offset-md-3 mt-4" [formGroup]="registerForm">
+    <div class="form-group">
+      <ion-item lines="full" class="mb-3">
+        <ion-label position="stacked" required>Email</ion-label>
+        <ion-input clearInput type="text" formControlName="email"></ion-input>
+        <span class="field-err" *ngIf="registerForm.controls.email.errors?.required && (registerForm.controls.email.dirty || registerForm.controls.email.touched)">Email is required</span>
+        <span class="field-err" *ngIf="registerForm.controls.email.hasError('invalidEmail')">Invalid email address</span>
+      </ion-item>
+      <ion-item lines="full" class="mb-3">
+        <ion-label position="stacked" required>Password</ion-label>
+        <ion-input clearInput type="password" formControlName="password"></ion-input>
+        <span class="field-err" *ngIf="registerForm.controls.password.errors?.required && (registerForm.controls.password.dirty || registerForm.controls.password.touched)">Password is required</span>
+      </ion-item>
+      <ion-item lines="full" class="mb-3">
+          <ion-label position="stacked" required> Confirm Password</ion-label>
+          <ion-input clearInput type="password" formControlName="confirmPassword"></ion-input>
+          <span class="field-err" *ngIf="registerForm.controls.confirmPassword.errors?.required && (registerForm.controls.confirmPassword.dirty || registerForm.controls.confirmPassword.touched)">Confirm Password is required</span>
+          <span class="field-err" *ngIf="registerForm.controls.confirmPassword.hasError('mismatchedPasswords')">Passwords do not match</span>
+      </ion-item>
+      <ion-item lines="full" class="mb-3">
+        <ion-label position="stacked" required>Full Name</ion-label>
+        <ion-input clearInput type="phoneNumber" formControlName="name"></ion-input>
+        <span class="field-err" *ngIf="registerForm.controls.name.errors?.required && (registerForm.controls.name.dirty || registerForm.controls.name.touched)">Name is required</span>
+      </ion-item>
+      <ion-item lines="full" class="mb-3">
+        <ion-label position="stacked" required>Phone Number</ion-label>
+        <ion-input clearInput type="phoneNumber" formControlName="phoneNumber"></ion-input>
+        <span class="field-err" *ngIf="registerForm.controls.phoneNumber.errors?.required && (registerForm.controls.phoneNumber.dirty || registerForm.controls.phoneNumber.touched)">Phone is required</span>
+      </ion-item>
+      <ion-item lines="full" class="mb-3">
+        <ion-label position="stacked" required>Zipcode</ion-label>
+        <ion-input clearInput type="phoneNumber" formControlName="zipCode"></ion-input>
+        <span class="field-err" *ngIf="registerForm.controls.zipCode.errors?.required && (registerForm.controls.zipCode.dirty || registerForm.controls.zipCode.touched)">Zipcode is required</span>
+      </ion-item>
+    </div>
+    <button class="mt-4" mat-raised-button (click)="registerApplicant()" color="primary">Register</button>
+  </form>
+  </div>
+</div>
 
 
