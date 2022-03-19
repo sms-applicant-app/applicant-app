@@ -26,8 +26,9 @@ const routes: Routes = [
   {
     path: 'logout',
     loadChildren: () => import('./logout/logout.module').then( m => m.LogoutPageModule)
-  },  {
-    path: 'onboarding',
+  },
+  {
+    path: 'onboarding/:packageId/:applicantId',
     loadChildren: () => import('./onboarding/onboarding.module').then( m => m.OnboardingPageModule)
   },
 
