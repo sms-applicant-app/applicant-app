@@ -6,8 +6,7 @@ import { OnboardingPage } from './onboarding.page';
 const routes: Routes = [
   {
     path: '',
-    component: OnboardingPage,
-
+    component: OnboardingPage
   }
 ];
 
