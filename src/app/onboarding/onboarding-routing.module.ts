@@ -5,7 +5,7 @@ import { OnboardingPage } from './onboarding.page';
 
 const routes: Routes = [
   {
-    path: ':applicantId',
+    path: '',
     component: OnboardingPage
   }
 ];

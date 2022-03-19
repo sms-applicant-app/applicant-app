@@ -12,57 +12,16 @@ export interface Section {
   styleUrls: ['./onboard-forms-list.component.scss'],
 })
 export class OnboardFormsListComponent implements OnInit {
-  @Input()federalDocs;
-  @Input()stateDocs;
-  @Input()companyDocs;
-  @Input() onboardingForms: any = [];
 
-  federals: Section[] = [
-    {
-      name: 'Photos',
-      link: 'string',
-      updated: new Date('1/1/16'),
-    },
-    {
-      name: 'Recipes',
-      link: 'string',
-      updated: new Date('1/17/16'),
-    },
-    {
-      name: 'Work',
-      link: 'string',
-      updated: new Date('1/28/16'),
-    },
-  ];
-  states: Section[] = [
-    {
-      name: 'Link to W4 in storage',
-      link: 'string',
-      updated: new Date('2/20/16'),
-    },
-    {
-      name: 'Kitchen Remodel',
-      link: 'string',
-      updated: new Date('1/18/16'),
-    },
-  ];
-  company: Section[] = [
-    {
-      name: 'Link to W4 in storage',
-      link: 'string',
-      updated: new Date('2/20/16'),
-    },
-    {
-      name: 'Kitchen Remodel',
-      link: 'string',
-      updated: new Date('1/18/16'),
-    },
-  ];
+  @Input() onboardingForms: any;
+
   constructor(
     private httpClient: HttpClient
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('incoming forms', this.onboardingForms);
+  }
 
   downloadForm(url: string) {
     let fileName = '';

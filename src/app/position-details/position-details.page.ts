@@ -4,8 +4,8 @@ import {JobsService} from '../shared/jobs.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Applicant} from '../models/applicant';
-import {FirestoreHelperService} from "../shared/firestore-helper.service";
-import {CdkTextareaAutosize} from "@angular/cdk/text-field";
+import {FirestoreHelperService} from '../shared/firestore-helper.service';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 
 @Component({
   selector: 'app-position-details',
