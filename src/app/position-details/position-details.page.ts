@@ -68,7 +68,8 @@ export class PositionDetailsPage implements OnInit {
     });
  }
   receiveApplicantMessage(){
-    localStorage.setItem('positionId', JSON.stringify(this.positionId));
-      this.router.navigate(['tabs/tab2']);
-    }
+    localStorage.setItem('positionId', this.positionId);
+    localStorage.setItem('applicant', this.newApplicant.email);
+    this.router.navigate(['tabs/tab2']);
+  }
 }
