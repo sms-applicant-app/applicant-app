@@ -15,6 +15,8 @@ export class Tab2Page {
   ) {
     const jobId = localStorage.getItem('positionId');
     const applicant = localStorage.getItem('applicant');
-    this.interviewFormUrl = `https://l1ii9124kpx.typeform.com/to/qDDm0ExR?typeform-medium=embed-snippet&jobId=${jobId || ''}&applicant=${applicant || ''}`;
+    // Testing a different form link
+    //this.interviewFormUrl = `https://l1ii9124kpx.typeform.com/to/qDDm0ExR?typeform-medium=embed-snippet&jobId=${jobId || ''}&applicant=${applicant || ''}`;
+    this.interviewFormUrl = `https://l1ii9124kpx.typeform.com/to/r0LqAN89?typeform-medium=embed-snippet&jobId=${jobId || ''}&applicant=${applicant || ''}`;
   }
 }
