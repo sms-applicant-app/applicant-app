@@ -1,11 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import { Location } from '@angular/common';
+
 import {JobsService} from '../shared/jobs.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Applicant} from '../models/applicant';
 import {FirestoreHelperService} from '../shared/firestore-helper.service';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+import { UserService } from '../shared/user.service';
+import { FranchiseService } from '../shared/franchise.service';
 
 @Component({
   selector: 'app-position-details',
@@ -26,22 +30,24 @@ export class PositionDetailsPage implements OnInit {
               public firestore: AngularFirestore,
               public router: Router,
               public fb: FormBuilder,
-              public dbHelper: FirestoreHelperService
+              public dbHelper: FirestoreHelperService,
+              private location: Location,
+              private userService: UserService,
+              private franchiseService: FranchiseService
   ) { }
 
   ngOnInit() {
     this.positionId = this.activatedRoute.snapshot.paramMap.get('positionId');
-    console.log('positionId from route', this.positionId);
-    this.getPositionsById(this.positionId);
     this.initApplicantForm();
+    this.getPositionsById(this.positionId);
   }
 
  getPositionsById(id){
     this.jobsService.getPositionsById(id).subscribe(data =>{
       this.positionDetails = data;
-      console.log('position details', this.positionDetails.franchiseId);
       this.franchiseId = this.positionDetails.franchiseId;
       this.storeId = this.positionDetails.storeId;
+      this.getFranchiseeById(this.franchiseId);
     });
  }
  initApplicantForm(){
@@ -68,8 +74,32 @@ export class PositionDetailsPage implements OnInit {
     });
  }
   receiveApplicantMessage(){
-    localStorage.setItem('positionId', this.positionId);
     localStorage.setItem('applicant', this.newApplicant.email);
     this.router.navigate(['tabs/tab2']);
+  }
+  goBack(): void {
+    this.location.back();
+  }
+
+  getFranchiseeById(franchiseId) {
+    if (franchiseId.length === 20) {
+      this.franchiseService.getFranchiseById(franchiseId).subscribe( res => {
+        console.log('res', res);
+        const franchiseData = res as any;
+        const franchiseName = franchiseData.businessLegalName;
+        localStorage.setItem('franchiseName', JSON.stringify(franchiseName));
+      });
+    } else {
+      this.userService.getFranchiseUserByFranchiseId(franchiseId).subscribe(res => {
+        if (res) {
+          res.docs.forEach(doc => {
+            const userData = doc.data() as any;
+            const franchiseName = userData.fullName || userData.firstName;
+            console.log('franchiseName', franchiseName);
+            localStorage.setItem('franchiseName', JSON.stringify(franchiseName));
+          });
+        }
+      });
+    }
   }
 }

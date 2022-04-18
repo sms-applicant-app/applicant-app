@@ -24,15 +24,12 @@ export class OpenPositionsListPage implements OnInit {
               public route: ActivatedRoute,
               public firestore: AngularFirestore,
               public dbHelper: FirestoreHelperService,
-              public router: Router) {
+              public router: Router,
+              ) {
   }
   ngOnInit() {
-    /*this.route.queryParams
-      .subscribe(params =>{
-        this.storeId = params.storeId;
-        console.log(this.storeId, 'retrieving store', params);
-      });*/
     this.storeId = this.route.snapshot.paramMap.get('storeId');
+    localStorage.setItem('storeId', JSON.stringify(this.storeId));
     console.log('store id from URL', this.storeId);
     this.getJobsByStore(this.storeId);
   }
@@ -109,8 +106,9 @@ export class OpenPositionsListPage implements OnInit {
     //TODo add another where clause to get only open positions
     console.log('store id in query', storeId);
   }
-  openPositionDetails(positionId){
-    console.log('position Id', positionId);
-    this.router.navigate([`/position-details/${positionId}`]);
+  openPositionDetails(position){
+    localStorage.setItem('positionSelected', JSON.stringify(position));
+    this.router.navigate([`/position-details/${position.id}`]);
   }
+
 }
