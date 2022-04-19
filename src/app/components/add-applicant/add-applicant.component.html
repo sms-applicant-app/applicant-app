@@ -22,17 +22,17 @@
       </ion-item>
       <ion-item lines="full" class="mb-3">
         <ion-label position="stacked" required>Full Name</ion-label>
-        <ion-input clearInput type="phoneNumber" formControlName="name"></ion-input>
+        <ion-input clearInput type="text" formControlName="name"></ion-input>
         <span class="field-err" *ngIf="registerForm.controls.name.errors?.required && (registerForm.controls.name.dirty || registerForm.controls.name.touched)">Name is required</span>
       </ion-item>
       <ion-item lines="full" class="mb-3">
         <ion-label position="stacked" required>Phone Number</ion-label>
-        <ion-input clearInput type="phoneNumber" formControlName="phoneNumber"></ion-input>
+        <ion-input clearInput type="text" formControlName="phoneNumber"></ion-input>
         <span class="field-err" *ngIf="registerForm.controls.phoneNumber.errors?.required && (registerForm.controls.phoneNumber.dirty || registerForm.controls.phoneNumber.touched)">Phone is required</span>
       </ion-item>
       <ion-item lines="full" class="mb-3">
         <ion-label position="stacked" required>Zipcode</ion-label>
-        <ion-input clearInput type="phoneNumber" formControlName="zipCode"></ion-input>
+        <ion-input clearInput type="text" formControlName="zipCode"></ion-input>
         <span class="field-err" *ngIf="registerForm.controls.zipCode.errors?.required && (registerForm.controls.zipCode.dirty || registerForm.controls.zipCode.touched)">Zipcode is required</span>
       </ion-item>
     </div>
