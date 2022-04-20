@@ -1,5 +1,7 @@
 import firebase from 'firebase';
 export class Applicant {
+  createdAt: firebase.firestore.FieldValue;
+  updatedAt: firebase.firestore.FieldValue;
   name: string;
   email: string;
   phoneNumber: string;
@@ -13,5 +15,4 @@ export class Applicant {
   dob?: string;
   gender?: string;
   onboardPackageID?: string;
-  createdDate: firebase.firestore.FieldValue;
 }

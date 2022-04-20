@@ -6,7 +6,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Applicant} from '../models/applicant';
 import {FirestoreHelperService} from '../shared/firestore-helper.service';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
-
+import * as firebase from 'firebase';
 @Component({
   selector: 'app-position-details',
   templateUrl: './position-details.page.html',
@@ -52,24 +52,27 @@ export class PositionDetailsPage implements OnInit {
    });
  }
  startApplicationProcess(){
+    this.newApplicant.createdAt = firebase.default.firestore.FieldValue.serverTimestamp();
+    this.newApplicant.updatedAt = firebase.default.firestore.FieldValue.serverTimestamp();
     this.newApplicant.name = this.applicantForm.controls.fullName.value;
-     this.newApplicant.email = this.applicantForm.controls.email.value;
-     this.newApplicant.phoneNumber = this.applicantForm.controls.phoneNumber.value;
-     this.newApplicant.jobId = this.positionId;
-     this.newApplicant.positionId = this.positionId;
-     this.newApplicant.storeId = this.storeId;
-     this.newApplicant.franchiseId = this.franchiseId;
-     this.newApplicant.status = 'APPLIED';
-     this.newApplicant.applicantId = this.firestore.createId();
-      const email = this.applicantForm.controls.email.value;
-      this.dbHelper.set(`applicant/${email}`, this.newApplicant).then(data =>{
-      console.log('saving applicant', this.newApplicant);
-      this.receiveApplicantMessage();
-    });
+    this.newApplicant.email = this.applicantForm.controls.email.value;
+    this.newApplicant.phoneNumber = this.applicantForm.controls.phoneNumber.value;
+    this.newApplicant.jobId = this.positionId;
+    this.newApplicant.positionId = this.positionId;
+    this.newApplicant.storeId = this.storeId;
+    this.newApplicant.franchiseId = this.franchiseId;
+    this.newApplicant.status = 'APPLIED';
+    this.newApplicant.applicantId = this.firestore.createId();
+    const email = this.applicantForm.controls.email.value;
+    this.dbHelper.set(`applicant/${email}`, this.newApplicant).then(data =>{
+    console.log('saving applicant', this.newApplicant);
+    this.receiveApplicantMessage();
+  });
  }
   receiveApplicantMessage(){
     localStorage.setItem('positionId', this.positionId);
     localStorage.setItem('applicant', this.newApplicant.email);
+    localStorage.setItem('typeFormUrl', this.positionDetails.typeFormUrlForInterview);
     this.router.navigate(['tabs/tab2']);
   }
 }
