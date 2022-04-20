@@ -95,9 +95,11 @@ export class OpenPositionsListPage implements OnInit {
             console.log('no jobs with that store', storeId);
           } else {
             jobs.forEach(job =>{
-              const j = job.data();
+              const j = job.data() as any;
               const positionId = job.id;
-              this.jobs.push({id: positionId, position:j});
+              if (j.positionOpen) {
+                this.jobs.push({id: positionId, position:j});
+              }
               console.log(this.jobs, 'id', positionId);
               this.dataSource = new MatTableDataSource<Position>(this.jobs);
             });
