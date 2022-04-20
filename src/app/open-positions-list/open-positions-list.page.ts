@@ -5,7 +5,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {Position} from '@angular/compiler';
 import {MatTableDataSource} from '@angular/material/table';
 import {FirestoreHelperService} from '../shared/firestore-helper.service';
-import {JobListing} from "../models/JobListing";
+import { AddressService } from '../shared/address.service';
 
 @Component({
   selector: 'app-open-positions-list',
@@ -18,14 +18,18 @@ export class OpenPositionsListPage implements OnInit {
   jobsData: any;
   jobId: string;
   jobs: any = [];
+  originJobs: any = [];
   dataSource:  MatTableDataSource<Position>;
   displayColumns= ['title', 'jobType', 'dateCreated', 'actions'];
-  constructor(public jobsService: JobsService,
-              public route: ActivatedRoute,
-              public firestore: AngularFirestore,
-              public dbHelper: FirestoreHelperService,
-              public router: Router) {
-  }
+  searchValue: string;
+  constructor(
+    public jobsService: JobsService,
+    public addressService: AddressService,
+    public route: ActivatedRoute,
+    public firestore: AngularFirestore,
+    public dbHelper: FirestoreHelperService,
+    public router: Router
+  ) {}
   ngOnInit() {
     /*this.route.queryParams
       .subscribe(params =>{
@@ -57,8 +61,8 @@ export class OpenPositionsListPage implements OnInit {
   fixStoreId(){
     const jobs = this.dbHelper.collectionWithIds$('jobs');
     jobs.forEach(j =>{
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
       for(let i = 0; i < j.length; i++){
-
         const id = j[i].id;
         const storeId = j[i].storeId;
         const storeIdString = storeId.toString();
@@ -66,15 +70,13 @@ export class OpenPositionsListPage implements OnInit {
         if(typeof storeId !== 'string'){
           this.firestore.doc(`jobs/${id}`).update({
             storeId: storeIdString
-          }).then(res =>{
+          }).then(() =>{
             console.log('updated store id', id);
           });
         }
       }
 
-    }).then(data => {
-      return 'fixed';
-    });
+    }).then(data => 'fixed');
     const jobsRef = this.firestore.collection('jobs', ref => ref.where('storeId','!=', null)).valueChanges();
     jobsRef.subscribe(data =>{
       data.forEach(job =>{
@@ -94,11 +96,13 @@ export class OpenPositionsListPage implements OnInit {
           if(jobs.docs.length === 0){
             console.log('no jobs with that store', storeId);
           } else {
-            jobs.forEach(job =>{
+            jobs.forEach(async job =>{
               const j = job.data() as any;
               const positionId = job.id;
               if (j.positionOpen) {
-                this.jobs.push({id: positionId, position:j});
+                const address = await this.addressService.getAddressById(j.addressId).toPromise();
+                this.originJobs.push({id: positionId, position:j, address});
+                this.jobs = [...this.originJobs];
               }
               console.log(this.jobs, 'id', positionId);
               this.dataSource = new MatTableDataSource<Position>(this.jobs);
@@ -114,5 +118,22 @@ export class OpenPositionsListPage implements OnInit {
   openPositionDetails(positionId){
     console.log('position Id', positionId);
     this.router.navigate([`/position-details/${positionId}`]);
+  }
+
+  searchChange(term) {
+    if (!term) {
+      this.jobs =  [...this.originJobs];
+      return;
+    }
+    this.jobs = this.originJobs.filter((job) => (
+      job.position.jobTitle.includes(term) ||
+      job.address?.city.includes(term) ||
+      job.address?.state.includes(term)
+    ));
+  }
+
+  resetSearch() {
+    this.searchValue = '';
+    this.jobs = [...this.originJobs];
   }
 }
