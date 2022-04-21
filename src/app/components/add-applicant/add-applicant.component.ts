@@ -51,11 +51,19 @@ export class AddApplicantComponent implements OnInit {
       const password = this.registerForm.controls.password.value;
       this.authService.RegisterUser(email, password).then(send =>{
         this.authService.SendVerificationMail();
+        this.addApplicantDetails();
         this.authService.SignIn(email, password).then(resp =>{
           console.log('logged in applicant ',resp);
         });
       });
     }
+  }
+  addApplicantDetails(){
+
+    this.registerForm = this.fb.group({
+      email: [''],
+      fullName: [''],
+    });
   }
 /*  saveApplicant(){
    const email = this.registerForm.controls.email.value;
