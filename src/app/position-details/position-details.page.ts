@@ -77,7 +77,8 @@ export class PositionDetailsPage implements OnInit {
  }
   receiveApplicantMessage(){
     localStorage.setItem('applicant', this.newApplicant.email);
-    localStorage.setItem('typeFormUrl', this.positionDetails.typeFormUrlForInterview);
+    localStorage.setItem('positionId', this.positionId);
+    localStorage.setItem('typeFormUrl', this.positionDetails.typeFormUrlForInterview || '');
     this.router.navigate(['tabs/tab2']);
   }
   goBack(): void {
