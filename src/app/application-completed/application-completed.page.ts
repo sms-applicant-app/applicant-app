@@ -3,6 +3,7 @@ import {JobsService} from '../shared/jobs.service';
 import {ApplicantService} from '../shared/applicant.service';
 import {AuthService} from '../shared/auth.service';
 import firebase from 'firebase';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-application-completed',
   templateUrl: './application-completed.page.html',
@@ -12,27 +13,31 @@ export class ApplicationCompletedPage implements OnInit {
   positionId: string;
   positionData: any;
   userData: any;
-  constructor(public jobService: JobsService, public applicantService: ApplicantService, public authService: AuthService) { }
+  franchiseName: string;
+  constructor(
+    public jobService: JobsService,
+    public applicantService: ApplicantService,
+    public authService: AuthService,
+    private router: Router,
+    ) { }
 
   ngOnInit() {
-    this.positionId = JSON.parse(localStorage.getItem('positionId'));
+    this.positionData = JSON.parse(localStorage.getItem('positionSelected'));
     this.userData = JSON.parse(localStorage.getItem('user'));
-    this.jobService.getPositionsById(this.positionId).subscribe(data =>{
-      this.positionData = data;
-      console.log('position,', this.positionData);
-      this.updateApplicantWithJobId();
-    });
-
+    this.franchiseName = JSON.parse(localStorage.getItem('franchiseName'));
+    this.updateApplicantWithJobId();
   }
-  // update applicant with position they applied for
-  // alert hiring manager application submitted
+
   updateApplicantWithJobId(){
     const applicantId = this.userData.email;
-    console.log('applicant id', applicantId);
-    this.applicantService.updateApplicant(applicantId, {jobId: this.positionId, status: 'applicantSubmitted'});
+    this.applicantService.updateApplicant(applicantId, {jobId: this.positionData.id, status: 'applicantSubmitted'});
   }
   logout(){
     this.authService.SignOut().then(data => 'logged out!!');
+  }
+  goListJob() {
+    const storeId = JSON.parse(localStorage.getItem('storeId'));
+    this.router.navigate([`/positions/${storeId}`]);
   }
 
 }

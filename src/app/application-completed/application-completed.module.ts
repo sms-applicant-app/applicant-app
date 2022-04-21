@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ApplicationCompletedPageRoutingModule } from './application-completed-routing.module';
 
 import { ApplicationCompletedPage } from './application-completed.page';
+import {AngularMaterialModule} from '../material-design/material-design.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ApplicationCompletedPageRoutingModule
+    ApplicationCompletedPageRoutingModule,
+    AngularMaterialModule
   ],
   declarations: [ApplicationCompletedPage]
 })
