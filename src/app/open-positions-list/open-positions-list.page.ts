@@ -84,7 +84,7 @@ export class OpenPositionsListPage implements OnInit {
 
 
   getJobsByStore(storeId: any){
-    this.fixStoreId();
+   // this.fixStoreId();
     if(typeof storeId === 'string'){
       console.log('store Id is a string');
       this.firestore.collection('jobs', ref => ref.where('storeId', '==', storeId)).get()
@@ -101,7 +101,7 @@ export class OpenPositionsListPage implements OnInit {
                 this.originJobs.push({id: positionId, position:j, address});
                 this.jobs = [...this.originJobs];
               }
-              console.log(this.jobs, 'id', positionId);
+            //  console.log(this.jobs, 'id', positionId);
               this.dataSource = new MatTableDataSource<Position>(this.jobs);
             });
           }
