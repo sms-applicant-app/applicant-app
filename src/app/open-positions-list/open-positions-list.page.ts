@@ -6,6 +6,7 @@ import {Position} from '@angular/compiler';
 import {MatTableDataSource} from '@angular/material/table';
 import {FirestoreHelperService} from '../shared/firestore-helper.service';
 import { AddressService } from '../shared/address.service';
+import { STATES } from '../constants/state';
 
 @Component({
   selector: 'app-open-positions-list',
@@ -116,15 +117,19 @@ export class OpenPositionsListPage implements OnInit {
     this.router.navigate([`/position-details/${position.id}`]);
   }
 
+  getStateName(stateSlug) {
+    return STATES.find(state => state.value === stateSlug).name;
+  }
+
   searchChange(term) {
     if (!term) {
       this.jobs =  [...this.originJobs];
       return;
     }
     this.jobs = this.originJobs.filter((job) => (
-      job.position.jobTitle.includes(term) ||
-      job.address?.city.includes(term) ||
-      job.address?.state.includes(term)
+      job.position.jobTitle.toLowerCase().includes(term.toLowerCase()) ||
+      job.address?.city.toLowerCase().includes(term.toLowerCase()) ||
+      this.getStateName(job.address?.state).toLowerCase().includes(term.toLowerCase())
     ));
   }
 
