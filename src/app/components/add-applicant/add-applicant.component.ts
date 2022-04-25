@@ -20,6 +20,7 @@ export class AddApplicantComponent implements OnInit {
   newApplicant: Applicant = new Applicant();
   applicantRegistered: boolean;
   registerForm: FormGroup;
+  messForm: string;
   constructor(
     public dbHelper: FirestoreHelperService,
     public fb: FormBuilder,
@@ -32,7 +33,6 @@ export class AddApplicantComponent implements OnInit {
     this.initRegisterForm();
   }
   initRegisterForm(){
-
     this.registerForm = this.fb.group(
       {
         email: ['', [Validators.required, emailValidator]],
@@ -51,19 +51,15 @@ export class AddApplicantComponent implements OnInit {
       const password = this.registerForm.controls.password.value;
       this.authService.RegisterUser(email, password).then(send =>{
         this.authService.SendVerificationMail();
-        this.addApplicantDetails();
         this.authService.SignIn(email, password).then(resp =>{
           console.log('logged in applicant ',resp);
         });
-      });
+      }).catch(err => {
+        this.messForm = err;
+      });;
+    } else {
+      this.messForm = 'Please enter field required';
     }
-  }
-  addApplicantDetails(){
-
-    this.registerForm = this.fb.group({
-      email: [''],
-      fullName: [''],
-    });
   }
 /*  saveApplicant(){
    const email = this.registerForm.controls.email.value;
