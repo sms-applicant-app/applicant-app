@@ -125,16 +125,22 @@ export class OpenPositionsListPage implements OnInit {
     return STATES.find(state => state.value === stateSlug).name;
   }
 
+  jobfilter(job, term) {
+    if (job.address) {
+      return job.position.jobTitle.toLowerCase().includes(term.toLowerCase()) ||
+      job.address?.city.toLowerCase().includes(term.toLowerCase()) ||
+      this.getStateName(job.address?.state).toLowerCase().includes(term.toLowerCase());
+    } else {
+      return job.position.jobTitle.toLowerCase().includes(term.toLowerCase());
+    }
+  }
+
   searchChange(term) {
     if (!term) {
       this.jobs =  [...this.originJobs];
       return;
     }
-    this.jobs = this.originJobs.filter((job) => (
-      job.position.jobTitle.toLowerCase().includes(term.toLowerCase()) ||
-      job.address?.city.toLowerCase().includes(term.toLowerCase()) ||
-      this.getStateName(job.address?.state).toLowerCase().includes(term.toLowerCase())
-    ));
+    this.jobs = this.originJobs.filter((job) => this.jobfilter(job, term));
   }
 
   resetSearch() {
