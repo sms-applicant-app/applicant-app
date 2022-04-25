@@ -28,9 +28,7 @@
       </div>
     </div>
   </div>
-      <div class="row">
-        <div class="container">
-        <div class="col-md-12">
+
           <div class="card-body text-center">
             <p>By getting your basic information we can move to the online Application process</p><br>Best of Luck!
             <form [formGroup]="applicantForm">
@@ -40,27 +38,18 @@
                   <mat-label>{{positionDetails.jobTitle}}</mat-label>
                   <input matInput disabled value="{{positionDetails.hiringManagersName}}">
                 </mat-form-field>
-
-
-
                     <mat-form-field class="col-md-12" appearance="fill">
                     <mat-label>Government Name</mat-label>
                     <input class="form-control" matInput formControlName="fullName" autocomplete="cc-name" type="text">
                   </mat-form-field>
-
-
                     <mat-form-field class="col-md-12"  appearance="fill">
                     <mat-label>Best Email To Reach you at</mat-label>
-                    <input matInput class="form-control"  formControlName="email" autocomplete="email">
+                    <input matInput class="form-control"  formControlName="email" autocomplete="email" type="text">
                   </mat-form-field>
-
-
                     <mat-form-field class="col-md-12" appearance="fill">
                       <mat-label>Best Phone for Correspondence </mat-label>
                       <input matInput class="form-control" formControlName="phoneNumber" autocomplete="tel" type="text">
                     </mat-form-field>
-
-
 
                 </div>
             </form>
@@ -68,7 +57,5 @@
             <!--<app-add-applicant (messageEvent)="receiveApplicantMessage($event)" [franchiseId]="franchiseId" [storeId]="storeId" [positionId]="positionId"></app-add-applicant>-->
           </div>
         </div>
-      </div>
-      </div>
-  </div>
+
 </ion-content>

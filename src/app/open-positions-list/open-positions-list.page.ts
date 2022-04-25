@@ -85,7 +85,7 @@ export class OpenPositionsListPage implements OnInit {
 
 
   getJobsByStore(storeId: any){
-    this.fixStoreId();
+   // this.fixStoreId();
     if(typeof storeId === 'string'){
       console.log('store Id is a string');
       this.firestore.collection('jobs', ref => ref.where('storeId', '==', storeId)).get()
