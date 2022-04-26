@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -15,7 +15,7 @@ export class Tab2Page {
     const jobId = localStorage.getItem('positionId');
     const applicant = localStorage.getItem('applicant');
     const typeFormUrl = localStorage.getItem('typeFormUrl');
-    const interviewFormUrl = `${typeFormUrl || 'https://l1ii9124kpx.typeform.com/to/qDDm0ExR'}?typeform-medium=embed-snippet&jobId=${jobId || ''}&applicant=${applicant || ''}`;
+    const interviewFormUrl = `${typeFormUrl || 'https://l1ii9124kpx.typeform.com/to/r0LqAN89'}?typeform-medium=embed-snippet&jobId=${jobId || ''}&applicant=${applicant || ''}`;
     this.interviewFormUrlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(interviewFormUrl);
   }
 }

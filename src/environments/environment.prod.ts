@@ -1,12 +1,12 @@
 export const environment = {
   production: true,
   firebaseConfig: {
-    apiKey: 'AIzaSyBfu8z9k5ZYYY1pC4SpwqtnTvE-DT_UPBg',
-    authDomain: 'appicant-app-prod.firebaseapp.com',
-    projectId: 'appicant-app-prod',
-    storageBucket: 'appicant-app-prod.appspot.com',
-    messagingSenderId: '431467558314',
-    appId: '1:431467558314:web:6b585c9b91907e0b31a7d3',
-    measurementId: 'G-3M37JQDZH7'
+    apiKey: 'AIzaSyCx4HAn42sjJa942eQa7UUpuYBNCA5QJv8',
+    authDomain: 'sms-applicant-management-app.firebaseapp.com',
+    projectId: 'sms-applicant-management-app',
+    storageBucket: 'sms-applicant-management-app.appspot.com',
+    messagingSenderId: '267560423861',
+    appId: '1:267560423861:web:da05f3b3a8d8ea348649fc',
+    measurementId: 'G-F5YS1DBRE7'
   }
 };
