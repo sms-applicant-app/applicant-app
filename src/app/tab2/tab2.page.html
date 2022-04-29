@@ -1,53 +1,7 @@
-<!--
-<ion-header [translucent]="true">
-  <ion-toolbar color="header">
-    <ion-row>
-      <div>
-        &lt;!&ndash; <img height="40" float-left src="../../assets/img/just-leaf-512.png" />&ndash;&gt;
-        <ion-title>Select Appointment</ion-title>
-      </div>
-    </ion-row>
-  </ion-toolbar>
-</ion-header>
-<ion-content>
-  <ion-button style="margin-top: 10px;" type="submit" (click)="gotoNextTab()" expand="block" >Confirm Information</ion-button>
-  <span class="ion-text-center ion-margin-top">Select Month then Day to Show Times</span>
-  <ion-calendar [(ngModel)]="date"
-                (change)="onChanged($event)"
-                (monthChange)="onMonthChange($event)"
-                [type]="type"
-                [format]="'YYYY-MM-DD'"
-                [options]= "{ daysConfig: daysConfiguration }">
-  </ion-calendar>
-  <ion-list-header center>
-    <span>Available Times</span>
-  </ion-list-header>
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Loading more data...">
-      <ion-list *ngIf="isTimesVisible">
-        <ion-radio-group [(ngModel)]="selectedTime">
-
-          <ion-item *ngFor="let item of appointmentTimes">
-            <ion-label>{{item.time | date:"hh:mm a"}}</ion-label>
-            <ion-radio slot="start" value="{{item.time}}"></ion-radio>
-          </ion-item>
-        </ion-radio-group>
-      </ion-list>
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-
-  <ion-button style="margin-top: 10px;" type="submit" (click)="gotoNextTab()" expand="block" >Confirm Information</ion-button>
-</ion-content>
--->
 <ion-header>
-
   <h2 class="ion-padding text-center">Interview Questions</h2>
 </ion-header>
-
-<ion-content>
-
   <!-- Calendly inline widget begin -->
-  <iframe id="typeform-full" width="100%" height="100%" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;" [src]="sanitizer.bypassSecurityTrustResourceUrl(interviewFormUrl)"></iframe>
-</ion-content>
+  <iframe id="typeform-full" width="100%" height="100%" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;" [src]="interviewFormUrlSafe"></iframe>
+
+

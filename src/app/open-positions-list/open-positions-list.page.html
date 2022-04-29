@@ -6,33 +6,40 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <p *ngIf="jobs.length <= 0">No Jobs for this Franchise Yet</p>
     <!-- <div class="card-toolbar">
        <button class="btn btn-light-primary" (click)="export()">Export</button>
      </div>-->
-  <div class="mat-elevation-z8" *ngIf="jobs.length > 0">
     <div class="ion-padding container">
-      <div *ngFor="let p of jobs">
-        <div class="dropdown-divider"></div>
-        <mat-card class="example-card">
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>{{p.position.jobTitle}}</mat-card-title>
-            <mat-card-subtitle>St Louis</mat-card-subtitle>
-          </mat-card-header>
-         <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
-          <mat-card-content>
-            <p>
-              {{p.position.shortJobDescription}}
-            </p>
-          </mat-card-content>
-          <mat-card-actions>
-            <button (click)="openPositionDetails(p.id)" mat-button>Details</button>
-            <!--<button mat-button>Details</button>-->
-          </mat-card-actions>
-        </mat-card>
-        <div class="dropdown-divider"></div>
-    </div>
+      <mat-form-field class="full-width" appearance="fill">
+        <input matInput type="text" [(ngModel)]="searchValue" placeholder="Search for  job title, state, city" (ngModelChange)="searchChange(searchValue)">
+        <mat-label>Search for a position</mat-label>
+        <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="resetSearch()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <p *ngIf="jobs.length <= 0">No Jobs for this Franchise Yet</p>
+      <div class="mat-elevation-z8" *ngIf="jobs.length > 0">
+        <div *ngFor="let p of jobs">
+          <div class="dropdown-divider"></div>
+          <mat-card class="example-card">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>{{p.position.jobTitle}}</mat-card-title>
+              <mat-card-subtitle>St Louis</mat-card-subtitle>
+            </mat-card-header>
+          <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+            <mat-card-content>
+              <p>
+                {{p.position.shortJobDescription}}
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button (click)="openPositionDetails(p)" mat-button>Details</button>
+              <!--<button mat-button>Details</button>-->
+            </mat-card-actions>
+          </mat-card>
+          <div class="dropdown-divider"></div>
+        </div>
       </div>
     </div>
 </ion-content>

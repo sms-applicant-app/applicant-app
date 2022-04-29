@@ -1,6 +1,5 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tab2',
@@ -9,13 +8,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class Tab2Page {
   interviewFormUrl: string;
-
+  interviewFormUrlSafe: SafeResourceUrl;
   constructor(
     public sanitizer: DomSanitizer
   ) {
     const jobId = localStorage.getItem('positionId');
     const applicant = localStorage.getItem('applicant');
-    //this.interviewFormUrl = `https://l1ii9124kpx.typeform.com/to/qDDm0ExR?typeform-medium=embed-snippet&jobId=${jobId || ''}&applicant=${applicant || ''}`;
-    this.interviewFormUrl = `https://l1ii9124kpx.typeform.com/to/r0LqAN89?typeform-medium=embed-snippet&jobId=${jobId || ''}&applicant=${applicant || ''}`;
+    const typeFormUrl = localStorage.getItem('typeFormUrl');
+    const interviewFormUrl = `${typeFormUrl || 'https://l1ii9124kpx.typeform.com/to/r0LqAN89'}?typeform-medium=embed-snippet&jobId=${jobId || ''}&applicant=${applicant || ''}`;
+    this.interviewFormUrlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(interviewFormUrl);
   }
 }

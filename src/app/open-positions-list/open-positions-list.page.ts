@@ -5,7 +5,8 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {Position} from '@angular/compiler';
 import {MatTableDataSource} from '@angular/material/table';
 import {FirestoreHelperService} from '../shared/firestore-helper.service';
-import {JobListing} from "../models/JobListing";
+import { AddressService } from '../shared/address.service';
+import { STATES } from '../constants/state';
 
 @Component({
   selector: 'app-open-positions-list',
@@ -18,21 +19,21 @@ export class OpenPositionsListPage implements OnInit {
   jobsData: any;
   jobId: string;
   jobs: any = [];
+  originJobs: any = [];
   dataSource:  MatTableDataSource<Position>;
   displayColumns= ['title', 'jobType', 'dateCreated', 'actions'];
-  constructor(public jobsService: JobsService,
-              public route: ActivatedRoute,
-              public firestore: AngularFirestore,
-              public dbHelper: FirestoreHelperService,
-              public router: Router) {
-  }
+  searchValue: string;
+  constructor(
+    public jobsService: JobsService,
+    public addressService: AddressService,
+    public route: ActivatedRoute,
+    public firestore: AngularFirestore,
+    public dbHelper: FirestoreHelperService,
+    public router: Router
+  ) {}
   ngOnInit() {
-    /*this.route.queryParams
-      .subscribe(params =>{
-        this.storeId = params.storeId;
-        console.log(this.storeId, 'retrieving store', params);
-      });*/
     this.storeId = this.route.snapshot.paramMap.get('storeId');
+    localStorage.setItem('storeId', JSON.stringify(this.storeId));
     console.log('store id from URL', this.storeId);
     this.getJobsByStore(this.storeId);
   }
@@ -57,8 +58,8 @@ export class OpenPositionsListPage implements OnInit {
   fixStoreId(){
     const jobs = this.dbHelper.collectionWithIds$('jobs');
     jobs.forEach(j =>{
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
       for(let i = 0; i < j.length; i++){
-
         const id = j[i].id;
         const storeId = j[i].storeId;
         const storeIdString = storeId.toString();
@@ -66,15 +67,13 @@ export class OpenPositionsListPage implements OnInit {
         if(typeof storeId !== 'string'){
           this.firestore.doc(`jobs/${id}`).update({
             storeId: storeIdString
-          }).then(res =>{
+          }).then(() =>{
             console.log('updated store id', id);
           });
         }
       }
 
-    }).then(data => {
-      return 'fixed';
-    });
+    }).then(data => 'fixed');
     const jobsRef = this.firestore.collection('jobs', ref => ref.where('storeId','!=', null)).valueChanges();
     jobsRef.subscribe(data =>{
       data.forEach(job =>{
@@ -94,11 +93,15 @@ export class OpenPositionsListPage implements OnInit {
           if(jobs.docs.length === 0){
             console.log('no jobs with that store', storeId);
           } else {
-            jobs.forEach(job =>{
-              const j = job.data();
+            jobs.forEach(async job =>{
+              const j = job.data() as any;
               const positionId = job.id;
-              this.jobs.push({id: positionId, position:j});
-              console.log(this.jobs, 'id', positionId);
+              if (j.positionOpen) {
+                const address = await this.addressService.getAddressById(j.addressId).toPromise();
+                this.originJobs.push({id: positionId, position:j, address});
+                this.jobs = [...this.originJobs];
+              }
+            //  console.log(this.jobs, 'id', positionId);
               this.dataSource = new MatTableDataSource<Position>(this.jobs);
             });
           }
@@ -109,8 +112,35 @@ export class OpenPositionsListPage implements OnInit {
     //TODo add another where clause to get only open positions
     console.log('store id in query', storeId);
   }
-  openPositionDetails(positionId){
-    console.log('position Id', positionId);
-    this.router.navigate([`/position-details/${positionId}`]);
+  openPositionDetails(position){
+    localStorage.setItem('positionSelected', JSON.stringify(position));
+    this.router.navigate([`/position-details/${position.id}`]);
+  }
+
+  getStateName(stateSlug) {
+    return STATES.find(state => state.value === stateSlug).name;
+  }
+
+  jobfilter(job, term) {
+    if (job.address) {
+      return job.position.jobTitle.toLowerCase().includes(term.toLowerCase()) ||
+      job.address?.city.toLowerCase().includes(term.toLowerCase()) ||
+      this.getStateName(job.address?.state).toLowerCase().includes(term.toLowerCase());
+    } else {
+      return job.position.jobTitle.toLowerCase().includes(term.toLowerCase());
+    }
+  }
+
+  searchChange(term) {
+    if (!term) {
+      this.jobs =  [...this.originJobs];
+      return;
+    }
+    this.jobs = this.originJobs.filter((job) => this.jobfilter(job, term));
+  }
+
+  resetSearch() {
+    this.searchValue = '';
+    this.jobs = [...this.originJobs];
   }
 }
