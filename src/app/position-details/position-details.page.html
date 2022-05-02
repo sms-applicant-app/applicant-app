@@ -6,29 +6,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="positionDetails">
-  <div class="container">
+<ion-content *ngIf="positionDetails" class="ion-padding">
+<div class="container">
     <button class="btn btn-default mt-3" (click)="goBack()">Back</button>
-    <div class="mt-3">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="">
-          <h3><span class="bold">Job Title: </span> {{positionDetails.jobTitle}} </h3>
-            <h3><span class="bold">Job Summary:</span> {{positionDetails.shortJobDescription}}</h3>
 
-            <p>connect address service to pull in address by ID</p>
-            <h3><span class="bold">Location:</span> {{positionDetails.addressId}}</h3>
-            <h3><span class="bold">Status: </span>Open</h3>
-            <h3><span class="bold">Company Website: </span>{{positionDetails.companyWebsite}}</h3>
-            <h3><span class="bold">Date Posted: </span>09/08/2021</h3>
-            <p>
-              <span class="bold">Job Description:</span>
-              {{positionDetails.jobDescription}}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+  <h3><span class="bold">Job Title: </span> {{positionDetails.jobTitle}} </h3>
+  <h3><span class="bold">Job Summary:</span> {{positionDetails.shortJobDescription}}</h3>
+
+  <p>connect address service to pull in address by ID</p>
+  <h3><span class="bold">Location:</span> {{positionDetails.addressId}}</h3>
+  <h3><span class="bold">Status: </span>Open</h3>
+  <h3><span class="bold">Company Website: </span>{{positionDetails.companyWebsite}}</h3>
+  <h3><span class="bold">Date Posted: </span>09/08/2021</h3>
+  <p>
+    <span class="bold">Job Description:</span>
+    {{positionDetails.jobDescription}}
+  </p>
+
 
         <div class="card-body text-center">
           <p>By getting your basic information we can move to the online Application process</p><br>Best of Luck!
@@ -53,5 +47,5 @@
           <button mat-raised-button class="btn-secondary-border" (click)="startApplicationProcess()" type="submit">Begin Application</button>
           <!--<app-add-applicant (messageEvent)="receiveApplicantMessage($event)" [franchiseId]="franchiseId" [storeId]="storeId" [positionId]="positionId"></app-add-applicant>-->
         </div>
-      </div>
+</div>
 </ion-content>
