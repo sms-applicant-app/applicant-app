@@ -1,3 +1,4 @@
+import { StoreService } from './../shared/store.service';
 import { Component, OnInit } from '@angular/core';
 import {JobsService} from '../shared/jobs.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,6 +8,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {FirestoreHelperService} from '../shared/firestore-helper.service';
 import { AddressService } from '../shared/address.service';
 import { STATES } from '../constants/state';
+import { Store } from '../models/store';
 
 @Component({
   selector: 'app-open-positions-list',
@@ -23,38 +25,24 @@ export class OpenPositionsListPage implements OnInit {
   dataSource:  MatTableDataSource<Position>;
   displayColumns= ['title', 'jobType', 'dateCreated', 'actions'];
   searchValue: string;
+  storeData: Store;
   constructor(
     public jobsService: JobsService,
     public addressService: AddressService,
     public route: ActivatedRoute,
     public firestore: AngularFirestore,
     public dbHelper: FirestoreHelperService,
-    public router: Router
+    public router: Router,
+    private storeService: StoreService
   ) {}
   ngOnInit() {
     this.storeId = this.route.snapshot.paramMap.get('storeId');
     localStorage.setItem('storeId', JSON.stringify(this.storeId));
     console.log('store id from URL', this.storeId);
     this.getJobsByStore(this.storeId);
+    this.getStoreByStoreId(this.storeId);
   }
-  /*getJobsByStore2(){
-    this.firestore.collection('jobs', ref => ref.where('storeId', '==', storeId)).get()
-      .subscribe(jobs =>{
-        this.jobs = [];
-        if(jobs.docs.length === 0){
-          console.log('no jobs with that store', this.storeId);
-        } else {
-          jobs.forEach(job =>{
-            const j = job.data();
-            const positionId = job.id;
-            this.jobs.push({id: positionId, position:j});
-            console.log(this.jobs, 'id', positionId);
-            this.dataSource = new MatTableDataSource<JobListing>(this.jobs);
-          });
-        }
-      });
 
-  }*/
   fixStoreId(){
     const jobs = this.dbHelper.collectionWithIds$('jobs');
     jobs.forEach(j =>{
@@ -142,5 +130,14 @@ export class OpenPositionsListPage implements OnInit {
   resetSearch() {
     this.searchValue = '';
     this.jobs = [...this.originJobs];
+  }
+
+  getStoreByStoreId(storeId: string) {
+    this.storeService.getStoreByStoreId(storeId).subscribe((res: Store) => {
+      if (res) {
+        this.storeData = res;
+      }
+      console.log(res, res);
+    });
   }
 }
