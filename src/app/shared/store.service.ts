@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/firestore";
 import {Observable} from "rxjs";
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { RESPONSE_STATUS } from '../constants/responseStatus';
 import { Store } from '../models/store';
-import { FirestoreHelperService } from './firestore-helper.service';
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,13 +14,17 @@ message: string;
 jobsData: any;
   constructor(
     public firestore: AngularFirestore,
-    private dbHelper: FirestoreHelperService
+    private http: HttpClient,
     ) { }
 
   getStoreByStoreId(storeId: string): Observable<Store | undefined> {
-    return this.dbHelper.collectionWithIds$('store', ref => ref.where('storeId', '==', storeId))
-    .pipe(take(1), map((stores: Array<Store>) => {
-      return stores.length > 0 ? stores[0] : undefined;
+    const url = `${environment.apiUrl}/api/v1/stores/${storeId}`;
+    return this.http.get(url).pipe(
+      map((res: any) => {
+       if (res.status === RESPONSE_STATUS.SUCCESS && res.data) {
+         return res.data as Store;
+       }
+       return undefined;
     }));
   }
 }

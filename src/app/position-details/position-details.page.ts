@@ -1,3 +1,4 @@
+import { JobPosting } from './../models/JobListing';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Location } from '@angular/common';
@@ -43,11 +44,13 @@ export class PositionDetailsPage implements OnInit {
   }
 
  getPositionsById(id){
-    this.jobsService.getPositionsById(id).subscribe(data =>{
-      this.positionDetails = data;
-      this.franchiseId = this.positionDetails.franchiseId;
-      this.storeId = this.positionDetails.storeId;
-      this.getFranchiseeById(this.franchiseId);
+    this.jobsService.getPositionsById(id).subscribe((data: JobPosting) =>{
+      if (data) {
+        this.positionDetails = data;
+        this.franchiseId = this.positionDetails.franchiseId;
+        this.storeId = this.positionDetails.storeId;
+        this.getFranchiseeById(this.franchiseId);
+      }
     });
  }
  initApplicantForm(){

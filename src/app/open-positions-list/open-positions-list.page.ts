@@ -38,67 +38,22 @@ export class OpenPositionsListPage implements OnInit {
   ngOnInit() {
     this.storeId = this.route.snapshot.paramMap.get('storeId');
     localStorage.setItem('storeId', JSON.stringify(this.storeId));
-    console.log('store id from URL', this.storeId);
     this.getJobsByStore(this.storeId);
     this.getStoreByStoreId(this.storeId);
   }
 
-  fixStoreId(){
-    const jobs = this.dbHelper.collectionWithIds$('jobs');
-    jobs.forEach(j =>{
-      // eslint-disable-next-line @typescript-eslint/prefer-for-of
-      for(let i = 0; i < j.length; i++){
-        const id = j[i].id;
-        const storeId = j[i].storeId;
-        const storeIdString = storeId.toString();
-        console.log('getting all jobs with Ids', j[i].storeId);
-        if(typeof storeId !== 'string'){
-          this.firestore.doc(`jobs/${id}`).update({
-            storeId: storeIdString
-          }).then(() =>{
-            console.log('updated store id', id);
-          });
+  getJobsByStore(storeId: any){
+    this.jobsService.getJobByStore(storeId).subscribe((res: any) => {
+      const jobs = res;
+      jobs.forEach(async job =>{
+        if (job.positionOpen) {
+          const address = await this.addressService.getAddressById(job.addressId).toPromise();
+          this.originJobs.push({id: job.id, position:job, address});
+          this.jobs = [...this.originJobs];
         }
-      }
-
-    }).then(data => 'fixed');
-    const jobsRef = this.firestore.collection('jobs', ref => ref.where('storeId','!=', null)).valueChanges();
-    jobsRef.subscribe(data =>{
-      data.forEach(job =>{
-      //  console.log('getting all jobs', job);
+        this.dataSource = new MatTableDataSource<Position>(this.jobs);
       });
     });
-  }
-
-
-  getJobsByStore(storeId: any){
-   // this.fixStoreId();
-    if(typeof storeId === 'string'){
-      console.log('store Id is a string');
-      this.firestore.collection('jobs', ref => ref.where('storeId', '==', storeId)).get()
-        .subscribe(jobs =>{
-          this.jobs = [];
-          if(jobs.docs.length === 0){
-            console.log('no jobs with that store', storeId);
-          } else {
-            jobs.forEach(async job =>{
-              const j = job.data() as any;
-              const positionId = job.id;
-              if (j.positionOpen) {
-                const address = await this.addressService.getAddressById(j.addressId).toPromise();
-                this.originJobs.push({id: positionId, position:j, address});
-                this.jobs = [...this.originJobs];
-              }
-            //  console.log(this.jobs, 'id', positionId);
-              this.dataSource = new MatTableDataSource<Position>(this.jobs);
-            });
-          }
-        });
-    } else {
-      console.log('what is store id', storeId);
-    }
-    //TODo add another where clause to get only open positions
-    console.log('store id in query', storeId);
   }
   openPositionDetails(position){
     localStorage.setItem('positionSelected', JSON.stringify(position));
@@ -136,8 +91,9 @@ export class OpenPositionsListPage implements OnInit {
     this.storeService.getStoreByStoreId(storeId).subscribe((res: Store) => {
       if (res) {
         this.storeData = res;
+      } else {
+        console.log('Store not found');
       }
-      console.log(res, res);
     });
   }
 }
