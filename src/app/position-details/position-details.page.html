@@ -8,7 +8,7 @@
 
 <ion-content *ngIf="positionDetails" class="ion-padding">
 <div class="container">
-    <button class="btn btn-default mt-3" (click)="goBack()">Back</button>
+    <button class="btn btn-secondary mt-3" (click)="goBack()">Back</button>
 
   <h3><span class="bold">Job Title: </span> {{positionDetails.jobTitle}} </h3>
   <h3><span class="bold">Job Summary:</span> {{positionDetails.shortJobDescription}}</h3>
@@ -48,7 +48,7 @@
     </form>
   </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button class="btn-secondary-border" (click)="startApplicationProcess()" type="submit">Begin Application</button>
+      <button class="btn btn-success text-center" (click)="startApplicationProcess()" type="submit">Begin Application</button>
     </mat-card-actions>
 
 
