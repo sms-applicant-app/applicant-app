@@ -23,7 +23,7 @@
           <mat-card class="example-card">
             <div class="item-container">
               <div class="avatar-container">
-                <img [src]="storeData.avatar" alt="">
+                <img [src]="storeData.avatar" onerror="this.src='./../../assets/images/jimmy-johns.png';" alt="Hirenow.us">
               </div>
               <div>
                 <p class="job-title">{{p.position.jobTitle}}</p>
