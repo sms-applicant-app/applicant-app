@@ -12,6 +12,10 @@ import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import * as firebase from 'firebase';
 import { UserService } from '../shared/user.service';
 import { FranchiseService } from '../shared/franchise.service';
+import { AddressService } from '../shared/address.service';
+import { Address } from '../models/address';
+import { STATES } from '../constants/state';
+import { CommonService } from '../shared/common.service';
 @Component({
   selector: 'app-position-details',
   templateUrl: './position-details.page.html',
@@ -25,16 +29,21 @@ export class PositionDetailsPage implements OnInit {
   storeId: string;
   applicantForm: FormGroup;
   newApplicant = new Applicant();
+  address: string;
+  constructor(
+    public activatedRoute: ActivatedRoute,
+    public jobsService: JobsService,
+    public firestore: AngularFirestore,
+    public router: Router,
+    public fb: FormBuilder,
+    public dbHelper: FirestoreHelperService,
+    private location: Location,
+    private userService: UserService,
+    private franchiseService: FranchiseService,
+    private addressService: AddressService,
+    private commonService: CommonService
 
-  constructor(public activatedRoute: ActivatedRoute,
-              public jobsService: JobsService,
-              public firestore: AngularFirestore,
-              public router: Router,
-              public fb: FormBuilder,
-              public dbHelper: FirestoreHelperService,
-              private location: Location,
-              private userService: UserService,
-              private franchiseService: FranchiseService
+
   ) { }
 
   ngOnInit() {
@@ -47,9 +56,11 @@ export class PositionDetailsPage implements OnInit {
     this.jobsService.getPositionsById(id).subscribe((data: JobPosting) =>{
       if (data) {
         this.positionDetails = data;
+        this.positionDetails.positionExpiration = this.commonService.convertTimeStampToDate(data.positionExpiration);
         this.franchiseId = this.positionDetails.franchiseId;
         this.storeId = this.positionDetails.storeId;
         this.getFranchiseeById(this.franchiseId);
+        this.getAddress(data.addressId);
       }
     });
  }
@@ -74,7 +85,6 @@ export class PositionDetailsPage implements OnInit {
     this.newApplicant.applicantId = this.firestore.createId();
     const email = this.applicantForm.controls.email.value;
     this.dbHelper.set(`applicant/${email}`, this.newApplicant).then(data =>{
-    console.log('saving applicant', this.newApplicant);
     this.receiveApplicantMessage();
   });
  }
@@ -91,7 +101,6 @@ export class PositionDetailsPage implements OnInit {
   getFranchiseeById(franchiseId) {
     if (franchiseId.length === 20) {
       this.franchiseService.getFranchiseById(franchiseId).subscribe( res => {
-        console.log('res', res);
         const franchiseData = res as any;
         const franchiseName = franchiseData.businessLegalName;
         localStorage.setItem('franchiseName', JSON.stringify(franchiseName));
@@ -102,11 +111,26 @@ export class PositionDetailsPage implements OnInit {
           res.docs.forEach(doc => {
             const userData = doc.data() as any;
             const franchiseName = userData.fullName || userData.firstName;
-            console.log('franchiseName', franchiseName);
             localStorage.setItem('franchiseName', JSON.stringify(franchiseName));
           });
         }
       });
     }
   }
+
+  getAddress(addressId: string) {
+    this.addressService.getAddressById(addressId).subscribe((res: Address) => {
+      // this.address = res;
+      const { streetAdd1, streetAdd2, state, city } = res;
+      const stateName = STATES.find((item) => item.value === state)?.name;
+      let location = `${streetAdd1}, ${stateName}, ${city}`;
+      if (streetAdd2) {
+        const locationItems = location.split(',');
+        locationItems.splice(1, 0, streetAdd2);
+        location = locationItems.join(', ');
+      }
+      this.address = location;
+    });
+  }
+
 }
