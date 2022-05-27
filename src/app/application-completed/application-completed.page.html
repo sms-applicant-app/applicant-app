@@ -6,15 +6,13 @@
 <ion-content>
 
 <div class="container">
-  <div class="row">
-      <div>
-        <p class="page-heading">Thanks you for completing the application for position: <span class="bold">{{positionData.position.jobTitle}}</span>, franchise name: <span class="bold">{{franchiseName}}</span></p><br>
-        <p>You will be contacted by the Hiring manager for Name of Franchise with instructions on the next steps </p>
-      </div>
-      <div>
-        <button mat-raised-button (click)="goListJob()" color="primary" class="mr-4">See other positions</button>
-        <button mat-stroked-button (click)="logout()" color="primary">Log out</button>
-      </div>
+  <div>
+    <p class="page-heading">Thanks you for completing the application for position: <span class="bold">{{positionData.position.jobTitle}}</span>, franchise name: <span class="bold">{{franchiseName}}</span></p><br>
+    <p>You will be contacted by the Hiring manager for Name of Franchise with instructions on the next steps </p>
+  </div>
+  <div>
+    <button mat-raised-button (click)="goListJob()" color="primary" class="mr-4">See other positions</button>
+    <button mat-stroked-button (click)="logout()" color="primary">Log out</button>
   </div>
 </div>
 </ion-content>
