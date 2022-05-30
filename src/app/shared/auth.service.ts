@@ -1,4 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 
 import { Router } from '@angular/router';
@@ -6,11 +7,11 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import {User} from '../models/user';
 
-import {stringify} from 'querystring';
 
 import {AlertController} from '@ionic/angular';
 import {first} from 'rxjs/operators';
-import {of} from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { RESPONSE_STATUS } from '../constants/responseStatus';
 
 @Injectable({
   providedIn: 'root'
@@ -24,55 +25,57 @@ export class AuthService {
   isLogin = false;
   roleAs: string;
   constructor(
-      public afStore: AngularFirestore,
-      public ngFireAuth: AngularFireAuth,
-      public router: Router,
-      public ngZone: NgZone,
-      public alertController: AlertController
+    public afStore: AngularFirestore,
+    public ngFireAuth: AngularFireAuth,
+    public router: Router,
+    public ngZone: NgZone,
+    public alertController: AlertController,
+    private httpClient: HttpClient
   ) {
     this.ngFireAuth.authState.subscribe(user => {
       if (user) {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
-      //  console.warn('SET USER', user);
         JSON.parse(localStorage.getItem('user'));
         const displayName = this.userData.displayName;
 
       } else {
         localStorage.setItem('user', null);
         localStorage.setItem('displayName', null);
-      //  console.warn('USER IS NULL');
         JSON.parse(localStorage.getItem('user'));
       }
     });
   }
 
   // Login in with email/password
-  SignIn(email, password) {
+  signIn(email, password) {
     return this.ngFireAuth.signInWithEmailAndPassword(email, password).then((data: any) => {
-      if (data) {
-        const displayName = data.user.displayName;
-        // If the user exists and nothing is in LocalStorage yet, store it there.
-        if (data.user) {
-          localStorage.setItem('user', JSON.stringify(data.user));
-
-        }
-
+      if (data && data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user));
       }
     });
   }
 
-  // Register user with email/password
-  RegisterUser(email, password) {
-    return this.ngFireAuth.createUserWithEmailAndPassword(email, password);
+  login(email: string, password: string) {
+    const url = `${environment.apiUrl}/api/v1/users/login`;
+    return this.httpClient.post(url, {
+      email,
+      password
+    });
   }
 
-  // Email verification when new user register
-  SendVerificationMail() {
-    return this.ngFireAuth.currentUser.then(u => u.sendEmailVerification())
-        .then(() => {
-          console.log('sent');
-        });
+
+  registerUser(userData: any ): Promise<any> {
+    const url = `${environment.apiUrl}/api/v1/users/applicant/register`;
+    return new Promise((resolve, reject) => {
+      this.httpClient.post(url, userData).subscribe((res: any) => {
+        if (res.status === RESPONSE_STATUS.SUCCESS && res.data) {
+          resolve(res.data);
+        } else {
+          reject(res.message);
+        }
+      });
+    });
   }
 
   // Recover password

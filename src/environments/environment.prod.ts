@@ -8,5 +8,6 @@ export const environment = {
     messagingSenderId: '267560423861',
     appId: '1:267560423861:web:da05f3b3a8d8ea348649fc',
     measurementId: 'G-F5YS1DBRE7'
-  }
+  },
+  apiUrl: 'https://us-central1-sms-applicant-management-app.cloudfunctions.net/hireNowApi'
 };

@@ -18,16 +18,18 @@
         </button>
       </mat-form-field>
       <p *ngIf="jobs.length <= 0">No Jobs for this Franchise Yet</p>
-      <div class="mat-elevation-z8" *ngIf="jobs.length > 0">
+      <div *ngIf="jobs.length > 0">
         <div *ngFor="let p of jobs">
-          <div class="dropdown-divider"></div>
           <mat-card class="example-card">
-            <mat-card-header>
-              <div mat-card-avatar class="example-header-image"></div>
-              <mat-card-title>{{p.position.jobTitle}}</mat-card-title>
-              <mat-card-subtitle>St Louis</mat-card-subtitle>
-            </mat-card-header>
-          <img mat-card-image src="./../../assets/images/jimmy-johns.png" alt="Hirenow.us">
+            <div class="item-container">
+              <div class="avatar-container">
+                <img [src]="storeData.avatar" onerror="this.src='./../../assets/images/jimmy-johns.png';" alt="Hirenow.us">
+              </div>
+              <div>
+                <p class="job-title">{{p.position.jobTitle}}</p>
+                <p>St Louis</p>
+              </div>
+            </div>
             <mat-card-content>
               <p>
                 {{p.position.shortJobDescription}}
@@ -35,7 +37,6 @@
             </mat-card-content>
             <mat-card-actions>
               <button (click)="openPositionDetails(p)" mat-button>Details</button>
-              <!--<button mat-button>Details</button>-->
             </mat-card-actions>
           </mat-card>
           <div class="dropdown-divider"></div>

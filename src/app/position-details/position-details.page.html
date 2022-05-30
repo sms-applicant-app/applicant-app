@@ -8,51 +8,50 @@
 
 <ion-content *ngIf="positionDetails" class="ion-padding">
 <div class="container">
-    <button class="btn btn-secondary mt-3" (click)="goBack()">Back</button>
-
-  <h3><span class="bold">Job Title: </span> {{positionDetails.jobTitle}} </h3>
-  <h3><span class="bold">Job Summary:</span> {{positionDetails.shortJobDescription}}</h3>
-
-  <p>connect address service to pull in address by ID</p>
-  <h3><span class="bold">Location:</span> {{positionDetails.addressId}}</h3>
-  <h3><span class="bold">Status: </span>Open</h3>
-  <h3><span class="bold">Company Website: </span>{{positionDetails.companyWebsite}}</h3>
-  <h3><span class="bold">Date Posted: </span>09/08/2021</h3>
-  <p>
-    <span class="bold">Job Description:</span>
-    {{positionDetails.jobDescription}}
-  </p>
-  <mat-card>
+  <button class="btn btn-primary mt-3" (click)="goBack()">Back</button>
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <h3><span class="bold">Job Title: </span> {{positionDetails.jobTitle}} </h3>
+      <h3><span class="bold">Job Description:</span> {{positionDetails.jobDescription}}</h3>
+      <h3><span class="bold">Address Id:</span> {{positionDetails.addressId}}</h3>
+      <h3><span class="bold">Location:</span> {{address}}</h3>
+    </div>
+    <div class="col-md-6">
+      <h3><span class="bold">Company website:</span> {{positionDetails.companyWebsite}}</h3>
+      <h3><span class="bold">Status: </span> {{positionDetails.positionOpen}}</h3>
+      <h3><span class="bold">Expiration date: </span>{{positionDetails.positionExpiration | date}}</h3>
+      <h3><span class="bold">Job type: </span> {{positionDetails.jobType === 'fullTime' ? 'Full time' : 'Part Time'}} </h3>
+    </div>
+  </div>
+  <div>
     <mat-card-header>
       <mat-card-subtitle>By getting your basic information we can move to the online Application process<br>Best of Luck!</mat-card-subtitle>
     </mat-card-header>
 
-  <mat-card-content>
-    <form [formGroup]="applicantForm">
-      <mat-form-field class="col-md-12" appearance="fill">
-        <mat-label>{{positionDetails.jobTitle}}</mat-label>
-        <input matInput disabled value="{{positionDetails.hiringManagersName}}">
-      </mat-form-field>
-      <mat-form-field class="col-md-12" appearance="fill">
-        <mat-label>Name</mat-label>
-        <input class="form-control" matInput formControlName="fullName" autocomplete="cc-name" type="text">
-      </mat-form-field>
-      <mat-form-field class="col-md-12"  appearance="fill">
-        <mat-label>Email </mat-label>
-        <input matInput class="form-control"  formControlName="email" autocomplete="email">
-      </mat-form-field>
-      <mat-form-field class="col-md-12" appearance="fill">
-        <mat-label>Mobile Phone Number </mat-label>
-        <input matInput class="form-control" formControlName="phoneNumber" autocomplete="tel" type="text">
-      </mat-form-field>
-    </form>
-  </mat-card-content>
+    <mat-card-content>
+      <form [formGroup]="applicantForm">
+        <mat-form-field class="col-md-12" appearance="fill">
+          <mat-label>{{positionDetails.jobTitle}}</mat-label>
+          <input matInput disabled value="{{positionDetails.hiringManagerId}}">
+        </mat-form-field>
+        <mat-form-field class="col-md-12" appearance="fill">
+          <mat-label>Name</mat-label>
+          <input class="form-control" matInput formControlName="fullName" autocomplete="cc-name" type="text">
+        </mat-form-field>
+        <mat-form-field class="col-md-12"  appearance="fill">
+          <mat-label>Email </mat-label>
+          <input matInput class="form-control"  formControlName="email" autocomplete="email">
+        </mat-form-field>
+        <mat-form-field class="col-md-12" appearance="fill">
+          <mat-label>Mobile Phone Number </mat-label>
+          <input matInput class="form-control" formControlName="phoneNumber" autocomplete="tel" type="text">
+        </mat-form-field>
+      </form>
+    </mat-card-content>
     <mat-card-actions>
       <button class="btn btn-success text-center" (click)="startApplicationProcess()" type="submit">Begin Application</button>
     </mat-card-actions>
-
-
     <!--<app-add-applicant (messageEvent)="receiveApplicantMessage($event)" [franchiseId]="franchiseId" [storeId]="storeId" [positionId]="positionId"></app-add-applicant>-->
-  </mat-card>
+  </div>
   </div>
 </ion-content>

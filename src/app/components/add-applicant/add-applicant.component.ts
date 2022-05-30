@@ -20,7 +20,8 @@ export class AddApplicantComponent implements OnInit {
   newApplicant: Applicant = new Applicant();
   applicantRegistered: boolean;
   registerForm: FormGroup;
-  messForm: string;
+  messErr: string;
+  messSuccess: string;
   constructor(
     public dbHelper: FirestoreHelperService,
     public fb: FormBuilder,
@@ -47,31 +48,27 @@ export class AddApplicantComponent implements OnInit {
   }
   registerApplicant(){
     if (this.registerForm.valid) {
-      const email = this.registerForm.controls.email.value;
-      const password = this.registerForm.controls.password.value;
-      this.authService.RegisterUser(email, password).then(send =>{
-        this.authService.SendVerificationMail();
-        this.authService.SignIn(email, password).then(resp =>{
-          console.log('logged in applicant ',resp);
-        });
+      const userData = {
+        email: this.registerForm.controls.email.value,
+        password: this.registerForm.controls.password.value,
+        phoneNumber: this.registerForm.controls.phoneNumber.value,
+        fullName: this.registerForm.controls.name.value,
+      };
+      this.authService.registerUser(userData).then((res: any) =>{
+        if (res) {
+          this.authService.signIn(userData.email, userData.password).then((resp: any) =>{
+            this.messErr = '';
+            this.messSuccess = 'Register success';
+          });
+        }
       }).catch(err => {
-        this.messForm = err;
+        this.messErr = err;
       });;
     } else {
-      this.messForm = 'Please enter field required';
+      this.messErr = 'Please enter field required';
     }
   }
-/*  saveApplicant(){
-   const email = this.registerForm.controls.email.value;
-   const password = this.registerForm.controls.password.value;
-  this.authService.RegisterUser(email, password).then(send =>{
-    this.authService.SendVerificationMail();
-    this.addApplicantDetails();
-    this.authService.SignIn(email, password).then(resp =>{
-      console.log('logged in applicant ',resp);
-    });
-  });
-  }*/
+
   saveApplicant(){
 
    this.newApplicant.name = this.registerForm.controls.name.value;
