@@ -14,8 +14,8 @@ import { AppComponent } from './app.component';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {environment} from '../environments/environment';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ComponentsModule} from "./components/components.module";
-import {AngularMaterialModule} from "./material-design/material-design.module";
+import {ComponentsModule} from './components/components.module';
+import {AngularMaterialModule} from './material-design/material-design.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 

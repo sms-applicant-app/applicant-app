@@ -78,6 +78,19 @@ export class AuthService {
     });
   }
 
+  googleAuthUser(idToken: string ): Promise<any> {
+    const url = `${environment.apiUrl}/api/v1/users/applicant/auth/google`;
+    return new Promise((resolve, reject) => {
+      this.httpClient.post(url, {idToken}).subscribe((res: any) => {
+        if (res.status === RESPONSE_STATUS.SUCCESS && res.data) {
+          resolve(res.data);
+        } else {
+          reject(res.message);
+        }
+      });
+    });
+  }
+
   // Recover password
   PasswordRecover(passwordResetEmail) {
     return this.ngFireAuth.sendPasswordResetEmail(passwordResetEmail)
